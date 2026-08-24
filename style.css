@@ -36,3 +36,15 @@ button{
     border:0;
     font-size:18px;
 }
+#rocket{
+    font-size:70px;
+    margin:50px;
+    transition:0.1s;
+}
+
+button{
+    padding:15px;
+    margin:10px;
+    font-size:18px;
+    border-radius:10px;
+}
