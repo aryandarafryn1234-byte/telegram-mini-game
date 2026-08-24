@@ -2,22 +2,20 @@ import os
 import random
 import asyncio
 import aiosqlite
-
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+# تنظیمات اولیه
 load_dotenv()
-
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMIN_ID = int(os.getenv("ADMIN_ID", "0"))
-
-bot = Bot(BOT_TOKEN)
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 router = Router()
 
+# تنظیمات کیس‌ها
 CASES = {
     "basic": {
         "title": "کیس معمولی",
@@ -27,231 +25,76 @@ CASES = {
             {"name": "هدیه کمیاب", "chance": 25},
             {"name": "هدیه ویژه", "chance": 5},
         ]
-    },
-    "premium": {
-        "title": "کیس ویژه",
-        "price": 50,
-        "items": [
-            {"name": "هدیه کمیاب", "chance": 60},
-            {"name": "هدیه افسانه‌ای", "chance": 30},
-            {"name": "هدیه بسیار نادر", "chance": 10},
-        ]
     }
 }
 
-
 async def init_db():
     async with aiosqlite.connect("bot.db") as db:
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                user_id INTEGER PRIMARY KEY,
-                username TEXT,
-                balance INTEGER DEFAULT 100,
-                invited_by INTEGER,
-                referrals INTEGER DEFAULT 0
-            )
-        """)
-
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS wins (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                case_id TEXT,
-                item_name TEXT,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        """)
-
+        await db.execute("CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY, balance INTEGER DEFAULT 100)")
+        await db.execute("CREATE TABLE IF NOT EXISTS wins (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, item_name TEXT)")
         await db.commit()
 
-
-async def create_user(user_id: int, username: str, invited_by=None):
+async def get_balance(user_id):
     async with aiosqlite.connect("bot.db") as db:
-        cursor = await db.execute(
-            "SELECT user_id FROM users WHERE user_id = ?",
-            (user_id,)
-        )
-        exists = await cursor.fetchone()
-
-        if not exists:
-            await db.execute(
-                """
-                INSERT INTO users
-                (user_id, username, balance, invited_by)
-                VALUES (?, ?, ?, ?)
-                """,
-                (user_id, username, 100, invited_by)
-            )
-
-            if invited_by and invited_by != user_id:
-                await db.execute(
-                    """
-                    UPDATE users
-                    SET referrals = referrals + 1,
-                        balance = balance + 10
-                    WHERE user_id = ?
-                    """,
-                    (invited_by,)
-                )
-
-        await db.commit()
-
-
-async def get_balance(user_id: int):
-    async with aiosqlite.connect("bot.db") as db:
-        cursor = await db.execute(
-            "SELECT balance FROM users WHERE user_id = ?",
-            (user_id,)
-        )
+        cursor = await db.execute("SELECT balance FROM users WHERE user_id = ?", (user_id,))
         row = await cursor.fetchone()
         return row[0] if row else 0
 
-
-async def choose_reward(items):
-    number = random.randint(1, 100)
-    current = 0
-
-    for item in items:
-        current += item["chance"]
-        if number <= current:
-            return item["name"]
-
-    return items[-1]["name"]
-
-
 @router.message(CommandStart())
-async def start_handler(message: Message):
-    args = message.text.split()
-    invited_by = None
-
-    if len(args) > 1 and args[1].isdigit():
-        invited_by = int(args[1])
-
-    await create_user(
-        message.from_user.id,
-        message.from_user.username or "",
-        invited_by
-    )
-
-    keyboard = InlineKeyboardBuilder()
-    keyboard.button(text="🎁 کیس‌ها", callback_data="cases")
-    keyboard.button(text="💰 موجودی", callback_data="balance")
-    keyboard.button(text="👥 دعوت دوستان", callback_data="referral")
-    keyboard.adjust(1)
-
-    await message.answer(
-        "به ربات هدیه خوش آمدید 🎁\n"
-        "یکی از گزینه‌ها را انتخاب کنید:",
-        reply_markup=keyboard.as_markup()
-    )
-
+async def start(message: Message):
+    async with aiosqlite.connect("bot.db") as db:
+        await db.execute("INSERT OR IGNORE INTO users (user_id) VALUES (?)", (message.from_user.id,))
+        await db.commit()
+    
+    kb = InlineKeyboardBuilder()
+    kb.button(text="🎁 باز کردن کیس", callback_data="cases")
+    kb.button(text="💰 موجودی", callback_data="balance")
+    await message.answer("سلام! به ربات خوش آمدید.", reply_markup=kb.as_markup())
 
 @router.callback_query(F.data == "balance")
-async def balance_handler(callback: CallbackQuery):
-    balance = await get_balance(callback.from_user.id)
-
-    await callback.message.edit_text(
-        f"💰 موجودی شما: {balance} سکه"
-    )
-    await callback.answer()
-
+async def show_balance(callback: CallbackQuery):
+    bal = await get_balance(callback.from_user.id)
+    await callback.answer(f"موجودی شما: {bal} سکه", show_alert=True)
 
 @router.callback_query(F.data == "cases")
-async def cases_handler(callback: CallbackQuery):
-    keyboard = InlineKeyboardBuilder()
+async def list_cases(callback: CallbackQuery):
+    kb = InlineKeyboardBuilder()
+    for cid, c in CASES.items():
+        kb.button(text=f"{c['title']} ({c['price']} سکه)", callback_data=f"buy:{cid}")
+    await callback.message.edit_text("انتخاب کنید:", reply_markup=kb.as_markup())
 
-    for case_id, case in CASES.items():
-        keyboard.button(
-            text=f"{case['title']} — {case['price']} سکه",
-            callback_data=f"open:{case_id}"
-        )
-
-    keyboard.button(text="🔙 بازگشت", callback_data="back")
-    keyboard.adjust(1)
-
-    await callback.message.edit_text(
-        "یکی از کیس‌ها را انتخاب کنید:",
-        reply_markup=keyboard.as_markup()
-    )
-    await callback.answer()
-
-
-@router.callback_query(F.data.startswith("open:"))
-async def open_case_handler(callback: CallbackQuery):
+@router.callback_query(F.data.startswith("buy:"))
+async def open_case(callback: CallbackQuery):
     case_id = callback.data.split(":")[1]
     case = CASES[case_id]
-    user_id = callback.from_user.id
-
-    balance = await get_balance(user_id)
-
-    if balance < case["price"]:
-        await callback.answer(
-            "موجودی کافی نیست.",
-            show_alert=True
-        )
+    bal = await get_balance(callback.from_user.id)
+    
+    if bal < case['price']:
+        await callback.answer("موجودی کافی نیست!", show_alert=True)
         return
 
-    reward = await choose_reward(case["items"])
+    
+    items = case['items']
+    r = random.uniform(0, 100)
+    chance_sum = 0
+    winner = items[-1]['name']
+    for i in items:
+        chance_sum += i['chance']
+        if r <= chance_sum:
+            winner = i['name']
+            break
 
     async with aiosqlite.connect("bot.db") as db:
-        await db.execute(
-            """
-            UPDATE users
-            SET balance = balance - ?
-            WHERE user_id = ?
-            """,
-            (case["price"], user_id)
-        )
-
-        await db.execute(
-            """
-            INSERT INTO wins (user_id, case_id, item_name)
-            VALUES (?, ?, ?)
-            """,
-            (user_id, case_id, reward)
-        )
-
+        await db.execute("UPDATE users SET balance = balance - ? WHERE user_id = ?", (case['price'], callback.from_user.id))
+        await db.execute("INSERT INTO wins (user_id, item_name) VALUES (?, ?)", (callback.from_user.id, winner))
         await db.commit()
-
-    await callback.message.edit_text(
-        f"🎉 کیس باز شد!\n\n"
-        f"🏆 جایزه شما:\n"
-        f"**{reward}**",
-        parse_mode="Markdown"
-    )
-
-    await callback.answer()
-
-
-@router.callback_query(F.data == "referral")
-async def referral_handler(callback: CallbackQuery):
-    user_id = callback.from_user.id
-    bot_info = await bot.get_me()
-
-    link = f"https://t.me/{bot_info.username}?start={user_id}"
-
-    await callback.message.edit_text(
-        "👥 لینک دعوت شما:\n\n"
-        f"{link}\n\n"
-        "با دعوت هر کاربر، پاداش دریافت می‌کنید."
-    )
-    await callback.answer()
-
-
-@router.callback_query(F.data == "back")
-async def back_handler(callback: CallbackQuery):
-    await callback.message.edit_text(
-        "برای شروع، دستور /start را ارسال کنید."
-    )
-    await callback.answer()
-
+    
+    await callback.message.edit_text(f"تبریک! شما برنده شدید: {winner}")
 
 async def main():
     await init_db()
     dp.include_router(router)
     await dp.start_polling(bot)
 
-
-if __name__ == "__main__":
+if name == "main":
     asyncio.run(main())
-        
