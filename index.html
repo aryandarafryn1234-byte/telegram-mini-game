@@ -1,82 +1,6 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Telegram Mini App</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-:root{--bg:var(--tg-theme-bg-color,#f3f6fa);--card:var(--tg-theme-secondary-bg-color,#fff);--text:var(--tg-theme-text-color,#17212b);--muted:var(--tg-theme-hint-color,#708090);--btn:var(--tg-theme-button-color,#2481cc);--btntext:var(--tg-theme-button-text-color,#fff)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Tahoma,sans-serif}
-.app{max-width:520px;margin:auto;padding:18px 16px 30px}.header{text-align:center;padding:10px 0 20px}
-.logo{width:76px;height:76px;margin:auto auto 12px;border-radius:24px;display:grid;place-items:center;font-size:36px;font-weight:800;color:#fff;background:linear-gradient(135deg,#2481cc,#45a7e8)}
-h1{margin:0;font-size:25px}.welcome{margin-top:7px;color:var(--muted);font-size:14px}
-.balance,.card{background:var(--card);border-radius:22px;border:1px solid rgba(0,0,0,.08);box-shadow:0 8px 28px rgba(0,0,0,.06)}
-.balance{text-align:center;padding:24px 20px}.label{color:var(--muted);font-size:14px}.amount{font-size:48px;font-weight:800;margin:8px 0 4px}.token{color:var(--muted)}
-.status{display:inline-block;margin-top:14px;padding:7px 12px;border-radius:99px;background:#20a4641a;color:#20a464;font-size:13px}
-.card{margin-top:14px;padding:18px}.card h2{margin:0 0 8px;font-size:18px}.card p{margin:0;color:var(--muted);line-height:1.9;font-size:14px}
-.buttons{display:grid;gap:10px;margin-top:16px}button{width:100%;border:0;border-radius:15px;padding:14px;font-size:16px;font-weight:700;background:var(--btn);color:var(--btntext)}
-button.secondary{background:transparent;color:var(--btn);border:1px solid var(--btn)}.info{text-align:center;color:var(--muted);font-size:12px;line-height:1.8;margin-top:15px}
-</style>
-</head>
-<body>
-<main class="app">
-<header class="header">
-<div class="logo">T</div>
-<h1>کیف توکن</h1>
-<div id="welcome" class="welcome">در حال اتصال به تلگرام...</div>
-</header>
-
-<section class="balance">
-<div class="label">موجودی شما</div>
-<div id="balance" class="amount">50</div>
-<div class="token">توکن</div>
-<div class="status">● حساب فعال</div>
-</section>
-
-<section class="card">
-<h2>🎁 هدیه ورود</h2>
-<p>در اولین ورود، ۵۰ توکن رایگان به کاربر اختصاص داده می‌شود و موجودی فعلی نمایش داده می‌شود.</p>
-<div class="buttons">
-<button id="refresh">به‌روزرسانی موجودی</button>
-<button id="close" class="secondary">بستن Mini App</button>
-</div>
-</section>
-
-<div class="info">نسخه اولیه Mini App<br>برای موجودی واقعی و امن، Backend لازم است.</div>
-</main>
-
-<script>
-const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
-if(tg){tg.ready();tg.expand();}
-
-const user=tg&&tg.initDataUnsafe?tg.initDataUnsafe.user:null;
-const welcome=document.getElementById("welcome");
-const balance=document.getElementById("balance");
-
-welcome.textContent=user?`سلام ${user.first_name||"کاربر"} 👋`:"حالت آزمایشی / مرورگر";
-
-function key(){return "miniapp_tokens_"+(user&&user.id?user.id:"demo");}
-function getBalance(){
-  const k=key(),saved=localStorage.getItem(k);
-  if(saved===null){localStorage.setItem(k,"50");return 50;}
-  const n=Number(saved);
-  return Number.isFinite(n)&&n>=0?n:50;
-}
-function render(){balance.textContent=getBalance();}
-document.getElementById("refresh").onclick=()=>{
-  render();
-  if(tg&&tg.showPopup) tg.showPopup({title:"موجودی",message:`موجودی شما ${getBalance()} توکن است.`,buttons:[{type:"ok"}]});
-  else alert(`موجودی شما ${getBalance()} توکن است.`);
-};
-document.getElementById("close").onclick=()=>{if(tg)tg.close();};
-render();
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta name="theme-color" content="#08111f">
@@ -251,4 +175,4 @@ render();
 })();
 </script>
 </body>
-  </html>
+</html>
