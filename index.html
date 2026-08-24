@@ -1,135 +1,32 @@
-<!DOCTYPE html>
-<html>
+<div id="menu">
 
-<head>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Game Hub</title>
-
-<link rel="stylesheet" href="style.css">
-
-</head>
-
-
-<body>
-
-
-<div class="app">
-
-
-<div class="profile">
-
-<div class="avatar">
-👤
-</div>
-
-
-<div>
-
-<h2>
-Player
-</h2>
-
-<p>
-💰 <span id="coin">
-1000
-</span>
-سکه
-</p>
-
-</div>
-
-
-</div>
-
-
-
-<h1>
-🎮 Game Center
-</h1>
-
-
+<h1>🎮 Game Center</h1>
 
 <div class="games">
 
+<button onclick="showGame('rocket')">
+🚀 Rocket
+</button>
 
-<div class="card"
-onclick="openGame('rocket')">
+<button onclick="showGame('xo')">
+❌⭕ XO
+</button>
 
-🚀
+<button onclick="showGame('rps')">
+✊✋✌️ RPS
+</button>
 
-<h3>
-Rocket
-</h3>
+<button onclick="showGame('dice')">
+🎲 Dice
+</button>
 
-<p>
-بازی ضریب
-</p>
+<button onclick="showGame('coin')">
+🪙 Coin Flip
+</button>
+
+</div>
 
 </div>
 
 
-
-<div class="card"
-onclick="openGame('xo')">
-
-❌⭕
-
-
-<h3>
-XO
-</h3>
-
-<p>
-دوز آنلاین
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-🎁
-
-<h3>
-Daily Bonus
-</h3>
-
-<p>
-جایزه روزانه
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-🏆
-
-<h3>
-Ranking
-</h3>
-
-<p>
-برترین بازیکنان
-</p>
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
-<script src="app.js"></script>
-
-
-</body>
-
-</html>
+<div id="game"></div>
