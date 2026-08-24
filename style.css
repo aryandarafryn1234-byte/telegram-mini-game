@@ -1,38 +1,109 @@
 body{
-    background:#111827;
-    color:white;
-    text-align:center;
-    font-family:Arial;
-}
 
-h1{
-    margin-top:30px;
-}
+margin:0;
 
-#board{
-    width:330px;
-    margin:30px auto;
-    display:grid;
-    grid-template-columns:repeat(3,100px);
-    gap:10px;
-}
+background:
+linear-gradient(
+180deg,
+#020617,
+#111827
+);
 
+color:white;
 
-.cell{
-    width:100px;
-    height:100px;
-    background:#374151;
-    border-radius:15px;
-    font-size:50px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+font-family:Arial;
+
 }
 
 
-button{
-    padding:15px 30px;
-    border-radius:10px;
-    border:0;
-    font-size:18px;
+
+.app{
+
+padding:20px;
+
+}
+
+
+
+.profile{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+background:#1e293b;
+
+padding:15px;
+
+border-radius:20px;
+
+}
+
+
+
+.avatar{
+
+font-size:50px;
+
+}
+
+
+
+.games{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:15px;
+
+margin-top:30px;
+
+}
+
+
+
+.card{
+
+background:#334155;
+
+padding:25px 10px;
+
+text-align:center;
+
+border-radius:25px;
+
+font-size:35px;
+
+transition:.2s;
+
+}
+
+
+
+.card:active{
+
+transform:scale(.95);
+
+}
+
+
+
+.card h3{
+
+font-size:20px;
+
+}
+
+
+
+.card p{
+
+font-size:14px;
+
+color:#cbd5e1;
+
 }
