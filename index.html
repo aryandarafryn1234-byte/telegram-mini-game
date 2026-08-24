@@ -1,23 +1,135 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XO Game</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Game Hub</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-<h1>⭕❌ XO GAME</h1>
 
-<div id="coin">
-🪙 توکن: <span id="score">1000</span>
+<div class="app">
+
+
+<div class="profile">
+
+<div class="avatar">
+👤
 </div>
 
-<div id="board"></div>
 
-<button onclick="restart()">شروع دوباره</button>
+<div>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<h2>
+Player
+</h2>
+
+<p>
+💰 <span id="coin">
+1000
+</span>
+سکه
+</p>
+
+</div>
+
+
+</div>
+
+
+
+<h1>
+🎮 Game Center
+</h1>
+
+
+
+<div class="games">
+
+
+<div class="card"
+onclick="openGame('rocket')">
+
+🚀
+
+<h3>
+Rocket
+</h3>
+
+<p>
+بازی ضریب
+</p>
+
+</div>
+
+
+
+<div class="card"
+onclick="openGame('xo')">
+
+❌⭕
+
+
+<h3>
+XO
+</h3>
+
+<p>
+دوز آنلاین
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+🎁
+
+<h3>
+Daily Bonus
+</h3>
+
+<p>
+جایزه روزانه
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+🏆
+
+<h3>
+Ranking
+</h3>
+
+<p>
+برترین بازیکنان
+</p>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
 <script src="app.js"></script>
+
+
+</body>
+
+</html>
