@@ -120,3 +120,10 @@ $("bet").oninput=()=>{bet=Math.max(1,Math.floor(Number($("bet").value)||1));rend
 </script>
 </body>
     </html>
+
+CREATE TABLE IF NOT EXISTS referrals (
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
+ inviter_id TEXT NOT NULL,
+ user_id TEXT NOT NULL UNIQUE,
+ created_at INTEGER NOT NULL
+);
