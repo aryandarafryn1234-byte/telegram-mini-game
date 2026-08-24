@@ -1,122 +1,465 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#07111f">
-<title>Rocket Game</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-:root{--bg:#07111f;--card:#101d30;--text:#f5f7fb;--muted:#8fa3bd;--blue:#2481cc;--green:#19c37d;--red:#ff4d67;--gold:#ffd166}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 10%,#17365d,#07111f 52%,#040911);color:var(--text);font-family:Arial,Tahoma,sans-serif}
-.app{max-width:560px;margin:auto;padding:12px 14px 28px}
-header{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 12px}
-.brand{font-weight:900;font-size:20px}.wallet{background:#14253b;border:1px solid #294563;border-radius:16px;padding:9px 12px}.wallet b{color:var(--gold)}
-.card{background:rgba(16,29,48,.96);border:1px solid #213852;border-radius:22px;box-shadow:0 12px 35px #0005}
-.game{height:410px;position:relative;overflow:hidden}
-.stars{position:absolute;inset:0;opacity:.4;background-image:radial-gradient(circle,#fff 1px,transparent 1.5px),radial-gradient(circle,#8fcaff 1px,transparent 1.5px);background-size:75px 85px,120px 130px}
-.moon{position:absolute;right:25px;top:25px;width:70px;height:70px;border-radius:50%;background:#eaf5ff;box-shadow:0 0 35px #b9ddff55}
-.mountains{position:absolute;bottom:0;left:-10%;width:120%;height:115px;background:#06101b;clip-path:polygon(0 100%,0 70%,14% 35%,28% 67%,42% 25%,55% 68%,68% 32%,82% 65%,93% 30%,100% 60%,100% 100%)}
-.mult{position:absolute;top:28px;left:0;right:0;text-align:center;font-size:50px;font-weight:900}
-.status{position:absolute;top:91px;left:0;right:0;text-align:center;color:var(--muted);font-size:13px}
-#rocket{position:absolute;bottom:60px;left:50%;font-size:58px;transform:translateX(-50%) rotate(-8deg);filter:drop-shadow(0 0 12px #ffb347)}
-#flame{position:absolute;bottom:35px;left:50%;font-size:27px;transform:translateX(-50%);animation:f .12s infinite alternate}
-@keyframes f{to{transform:translateX(-50%) scale(1.15)}}
-#boom{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%) scale(.2);font-size:100px;opacity:0}
-#boom.show{animation:b .55s forwards}@keyframes b{35%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
-.controls{margin-top:12px;padding:14px}.row{display:flex;gap:9px}
-input{width:100%;background:#091524;border:1px solid #29425f;color:#fff;border-radius:13px;padding:13px;font-size:16px;outline:0}
-button{border:0;border-radius:14px;padding:13px 15px;font-size:16px;font-weight:800;color:#fff;cursor:pointer;background:linear-gradient(135deg,#168fff,#4169ff)}
-button.green{background:linear-gradient(135deg,#16bd78,#07935b)}button.red{background:linear-gradient(135deg,#ff5168,#d93650)}
-button:disabled{opacity:.45}
-#cashout{display:none;width:100%;margin-top:9px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.stat{background:#0b1727;padding:10px;border-radius:13px;text-align:center;color:var(--muted);font-size:12px}.stat b{display:block;color:#fff;font-size:17px;margin-top:3px}
-.history{margin-top:12px;padding:14px}.history h3{margin:0 0 9px;font-size:16px}#history{display:flex;gap:7px;flex-wrap:wrap}.pill{background:#19344f;color:#8ed1ff;padding:6px 10px;border-radius:99px;font-size:12px}.pill.red{background:#401a25;color:#ff8796}
-.admin{display:none;margin-top:12px;padding:14px}.admin.show{display:block}.admin h2{margin:0 0 5px;font-size:18px}.admin p{margin:0 0 12px;color:var(--muted);font-size:12px;line-height:1.7}
-.admin .grid{display:grid;gap:9px}.admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
-.result{margin-top:10px;background:#091524;border-radius:13px;padding:11px;color:var(--muted);font-size:13px;min-height:40px}.result b{color:#fff}
-.note{text-align:center;color:#6f839d;font-size:11px;line-height:1.7;margin-top:12px}
-.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);background:#17263a;border:1px solid #2b4664;padding:11px 16px;border-radius:13px;opacity:0;transition:.25s;z-index:20;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
-</style>
-</head>
-<body>
-<div class="app">
-<header><div class="brand">🚀 Rocket Game</div><div class="wallet">🪙 <b id="balance">50</b></div></header>
+import express from "express";
+import dotenv from "dotenv";
+import crypto from "crypto";
+import Database from "better-sqlite3";
+import path from "path";
+import { fileURLToPath } from "url";
 
-<section class="card game">
-<div class="stars"></div><div class="moon"></div><div class="mountains"></div>
-<div id="mult" class="mult">1.00x</div><div id="status" class="status">مقدار توکن را وارد کن و شروع بزن</div>
-<div id="rocket">🚀</div><div id="flame">🔥</div><div id="boom">💥</div>
-</section>
+dotenv.config();
 
-<section class="card controls">
-<div class="row"><input id="bet" type="number" min="1" value="5" inputmode="numeric"><button id="start">شروع بازی</button></div>
-<button id="cashout" class="green">💰 برداشت</button>
-<div class="stats"><div class="stat">شرط<b id="currentBet">5</b></div><div class="stat">برد احتمالی<b id="potential">5.00</b></div></div>
-</section>
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-<section class="card history"><h3>نتایج اخیر</h3><div id="history"><span class="pill">آماده</span></div></section>
+const BOT_TOKEN = process.env.BOT_TOKEN;
+const ADMIN_ID = String(process.env.ADMIN_ID || "7681716638");
+const PORT = Number(process.env.PORT || 3000);
 
-<section id="admin" class="card admin">
-<h2>👑 پنل مدیریت توکن</h2>
-<p>ادمین: 7681716638<br>این نسخه آزمایشی است؛ موجودی روی دستگاه ذخیره می‌شود. برای مدیریت واقعی کاربران از سرور و دیتابیس استفاده کن.</p>
-<div class="grid">
-<input id="userId" inputmode="numeric" placeholder="Telegram ID کاربر">
-<input id="amount" type="number" min="1" value="100" inputmode="numeric" placeholder="تعداد توکن">
-</div>
-<div class="admin-actions"><button id="add" class="green">➕ افزودن</button><button id="remove" class="red">➖ کسر</button></div>
-<div id="adminResult" class="result">کاربر را انتخاب کن.</div>
-</section>
-<div class="note">توکن‌ها در این نسخه امتیازی هستند و ارزش پولی یا امکان برداشت واقعی ندارند.</div>
-</div>
-<div id="toast" class="toast"></div>
-
-<script>
-(() => {
-const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();}
-const ADMIN_ID="7681716638";
-const $=id=>document.getElementById(id);
-const user=tg?.initDataUnsafe?.user||null;
-const currentUserId=user?.id?String(user.id):"demo";
-const storageKey=id=>"rocket_balance_"+String(id);
-let balance=Number(localStorage.getItem(storageKey(currentUserId)));
-if(!Number.isFinite(balance)){balance=50;localStorage.setItem(storageKey(currentUserId),"50");}
-let running=false,bet=5,multiplier=1,crashAt=2,startTime=0,raf=0;
-
-function getBal(id){const n=Number(localStorage.getItem(storageKey(id)));return Number.isFinite(n)&&n>=0?n:0}
-function setBal(id,n){localStorage.setItem(storageKey(id),String(Math.max(0,n)))}
-function save(){setBal(currentUserId,balance)}
-function render(){$("balance").textContent=Number(balance).toLocaleString("fa-IR");$("currentBet").textContent=bet;$("potential").textContent=(bet*multiplier).toFixed(2)}
-function toast(m){const x=$("toast");x.textContent=m;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1800)}
-function history(v,red){const e=document.createElement("span");e.className="pill"+(red?" red":"");e.textContent=v.toFixed(2)+"x";$("history").prepend(e);while($("history").children.length>8)$("history").lastChild.remove()}
-function crashPoint(){const r=Math.random();return Math.max(1.05,Math.min(30,.98/Math.max(.03,1-r)))}
-function resetRocket(){$("rocket").style.bottom="60px";$("flame").style.display="block";$("boom").classList.remove("show")}
-function startGame(){
-if(running)return;bet=Math.floor(Number($("bet").value));if(!Number.isFinite(bet)||bet<1)return toast("حداقل ۱ توکن");if(bet>balance)return toast("توکن کافی نیست");
-balance-=bet;save();render();running=true;multiplier=1;crashAt=crashPoint();startTime=performance.now();
-$("start").disabled=true;$("bet").disabled=true;$("cashout").style.display="block";$("status").textContent="🚀 قبل از انفجار برداشت کن!";resetRocket();
-const loop=now=>{if(!running)return;const sec=(now-startTime)/1000;multiplier=1+Math.pow(sec,1.45)*.34;$("mult").textContent=multiplier.toFixed(2)+"x";$("potential").textContent=(bet*multiplier).toFixed(2);$("rocket").style.bottom=(60+Math.min(275,sec*48))+"px";if(multiplier>=crashAt){crash();return}raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop)
+if (!BOT_TOKEN) {
+  console.error("BOT_TOKEN داخل .env تنظیم نشده!");
+  process.exit(1);
 }
-function crash(){if(!running)return;running=false;cancelAnimationFrame(raf);$("flame").style.display="none";$("boom").classList.add("show");$("status").textContent="💥 انفجار! این دور باخت.";history(multiplier,true);$("cashout").style.display="none";$("start").disabled=false;$("bet").disabled=false;render()}
-function cashout(){if(!running)return;running=false;cancelAnimationFrame(raf);const win=bet*multiplier;balance+=win;save();render();$("status").textContent=`✅ ${win.toFixed(2)} توکن برداشت شد`;history(multiplier,false);$("cashout").style.display="none";$("start").disabled=false;$("bet").disabled=false;$("flame").style.display="none";toast("برد به موجودی اضافه شد 🎉")}
 
-const isAdmin=currentUserId===ADMIN_ID;
-if(isAdmin)$("admin").classList.add("show");
+const db = new Database(path.join(__dirname, "data.sqlite"));
 
-function adminChange(sign){
-if(!isAdmin)return;
-const id=$("userId").value.trim(),amount=Math.floor(Number($("amount").value));
-if(!/^\d+$/.test(id))return toast("Telegram ID معتبر وارد کن");
-if(!Number.isFinite(amount)||amount<1)return toast("تعداد توکن معتبر نیست");
-const old=getBal(id),next=Math.max(0,old+sign*amount);setBal(id,next);
-$("adminResult").innerHTML=`کاربر <b>${id}</b> — موجودی: <b>${next}</b> توکن`;
-toast(sign>0?"توکن اضافه شد ✅":"توکن کم شد ✅");
-if(id===currentUserId){balance=next;render()}
+db.pragma("journal_mode = WAL");
+
+db.exec(`
+CREATE TABLE IF NOT EXISTS users (
+  telegram_id TEXT PRIMARY KEY,
+  username TEXT DEFAULT '',
+  first_name TEXT DEFAULT '',
+  balance INTEGER NOT NULL DEFAULT 50,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS games (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  telegram_id TEXT NOT NULL,
+  bet INTEGER NOT NULL,
+  crash_at REAL NOT NULL,
+  status TEXT NOT NULL DEFAULT 'running',
+  payout INTEGER NOT NULL DEFAULT 0,
+  multiplier REAL DEFAULT 1,
+  started_at INTEGER NOT NULL,
+  finished_at INTEGER
+);
+`);
+
+const app = express();
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+function verifyTelegram(initData) {
+  if (!initData) return null;
+
+  const params = new URLSearchParams(initData);
+  const hash = params.get("hash");
+
+  if (!hash) return null;
+
+  params.delete("hash");
+
+  const dataCheckString = [...params.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, value]) => `${key}=${value}`)
+    .join("\n");
+
+  const secretKey = crypto
+    .createHmac("sha256", "WebAppData")
+    .update(BOT_TOKEN)
+    .digest();
+
+  const calculatedHash = crypto
+    .createHmac("sha256", secretKey)
+    .update(dataCheckString)
+    .digest("hex");
+
+  if (calculatedHash !== hash) return null;
+
+  const authDate = Number(params.get("auth_date"));
+
+  if (!authDate) return null;
+
+  if (Math.floor(Date.now() / 1000) - authDate > 86400) {
+    return null;
+  }
+
+  try {
+    const user = JSON.parse(params.get("user") || "{}");
+
+    if (!user.id) return null;
+
+    return user;
+  } catch {
+    return null;
+  }
 }
-$("add").onclick=()=>adminChange(1);$("remove").onclick=()=>adminChange(-1);$("start").onclick=startGame;$("cashout").onclick=cashout;
-$("bet").oninput=()=>{bet=Math.max(1,Math.floor(Number($("bet").value)||1));render()};render();
-})();
-</script>
-</body>
-</html>
+
+function auth(req, res, next) {
+  const user = verifyTelegram(
+    req.headers["x-telegram-init-data"]
+  );
+
+  if (!user) {
+    return res.status(401).json({
+      ok: false,
+      error: "Telegram authentication failed"
+    });
+  }
+
+  req.telegramUser = user;
+  next();
+}
+
+function createUser(user) {
+  db.prepare(`
+    INSERT INTO users
+    (telegram_id, username, first_name)
+    VALUES (?, ?, ?)
+    ON CONFLICT(telegram_id)
+    DO UPDATE SET
+      username = excluded.username,
+      first_name = excluded.first_name,
+      updated_at = CURRENT_TIMESTAMP
+  `).run(
+    String(user.id),
+    user.username || "",
+    user.first_name || ""
+  );
+}
+
+function getUser(id) {
+  return db
+    .prepare("SELECT * FROM users WHERE telegram_id = ?")
+    .get(String(id));
+}
+
+function getActiveGame(id) {
+  return db
+    .prepare(`
+      SELECT *
+      FROM games
+      WHERE telegram_id = ?
+      AND status = 'running'
+      ORDER BY id DESC
+      LIMIT 1
+    `)
+    .get(String(id));
+}
+
+function crashPoint() {
+  const r = Math.random();
+
+  return Number(
+    Math.max(
+      1.05,
+      Math.min(
+        30,
+        1 + Math.pow(1 / Math.max(0.05, 1 - r), 1.15) * 0.55
+      )
+    ).toFixed(2)
+  );
+}
+
+/* اطلاعات کاربر */
+
+app.get("/api/me", auth, (req, res) => {
+  createUser(req.telegramUser);
+
+  const user = getUser(req.telegramUser.id);
+
+  res.json({
+    ok: true,
+    user: {
+      id: String(req.telegramUser.id),
+      username: req.telegramUser.username || "",
+      firstName: req.telegramUser.first_name || "",
+      balance: user.balance,
+      isAdmin:
+        String(req.telegramUser.id) === ADMIN_ID
+    }
+  });
+});
+
+/* پنل ادمین */
+
+app.post("/api/admin/balance", auth, (req, res) => {
+
+  if (String(req.telegramUser.id) !== ADMIN_ID) {
+    return res.status(403).json({
+      ok: false,
+      error: "دسترسی ادمین ندارید"
+    });
+  }
+
+  const userId = String(req.body.userId || "").trim();
+  const amount = Math.floor(Number(req.body.amount));
+  const mode = req.body.mode === "remove"
+    ? "remove"
+    : "add";
+
+  if (!/^\d+$/.test(userId)) {
+    return res.status(400).json({
+      ok: false,
+      error: "Telegram ID نامعتبر است"
+    });
+  }
+
+  if (!Number.isFinite(amount) || amount < 1) {
+    return res.status(400).json({
+      ok: false,
+      error: "تعداد توکن نامعتبر است"
+    });
+  }
+
+  let user = getUser(userId);
+
+  if (!user) {
+    db.prepare(`
+      INSERT INTO users (telegram_id, balance)
+      VALUES (?, 0)
+    `).run(userId);
+
+    user = getUser(userId);
+  }
+
+  let newBalance;
+
+  if (mode === "add") {
+    newBalance = user.balance + amount;
+  } else {
+    newBalance = Math.max(0, user.balance - amount);
+  }
+
+  db.prepare(`
+    UPDATE users
+    SET balance = ?,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE telegram_id = ?
+  `).run(newBalance, userId);
+
+  res.json({
+    ok: true,
+    userId,
+    balance: newBalance
+  });
+});
+
+/* شروع بازی */
+
+app.post("/api/game/start", auth, (req, res) => {
+
+  const id = String(req.telegramUser.id);
+
+  createUser(req.telegramUser);
+
+  const bet = Math.floor(Number(req.body.bet));
+
+  if (!Number.isFinite(bet) || bet < 1) {
+    return res.status(400).json({
+      ok: false,
+      error: "مبلغ شرط نامعتبر است"
+    });
+  }
+
+  if (getActiveGame(id)) {
+    return res.status(409).json({
+      ok: false,
+      error: "یک بازی در حال اجراست"
+    });
+  }
+
+  const user = getUser(id);
+
+  if (user.balance < bet) {
+    return res.status(400).json({
+      ok: false,
+      error: "توکن کافی نیست"
+    });
+  }
+
+  const crashAt = crashPoint();
+
+  const result = db.transaction(() => {
+
+    db.prepare(`
+      UPDATE users
+      SET balance = balance - ?
+      WHERE telegram_id = ?
+    `).run(bet, id);
+
+    const game = db.prepare(`
+      INSERT INTO games
+      (telegram_id, bet, crash_at, started_at)
+      VALUES (?, ?, ?, ?)
+    `).run(
+      id,
+      bet,
+      crashAt,
+      Date.now()
+    );
+
+    return game.lastInsertRowid;
+  })();
+
+  res.json({
+    ok: true,
+    gameId: result,
+    bet,
+    crashAt,
+    balance: getUser(id).balance
+  });
+});
+
+/* وضعیت بازی */
+
+app.get("/api/game/state", auth, (req, res) => {
+
+  const id = String(req.telegramUser.id);
+
+  const game = getActiveGame(id);
+
+  if (!game) {
+    return res.json({
+      ok: true,
+      running: false,
+      balance: getUser(id).balance
+    });
+  }
+
+  const seconds =
+    (Date.now() - game.started_at) / 1000;
+
+  const multiplier = Number(
+    (1 + Math.pow(seconds, 1.45) * 0.34).toFixed(2)
+  );
+
+  if (multiplier >= game.crash_at) {
+
+    db.prepare(`
+      UPDATE games
+      SET status = 'crashed',
+          multiplier = ?,
+          finished_at = ?
+      WHERE id = ?
+      AND status = 'running'
+    `).run(
+      game.crash_at,
+      Date.now(),
+      game.id
+    );
+
+    return res.json({
+      ok: true,
+      running: false,
+      crashed: true,
+      multiplier: game.crash_at,
+      balance: getUser(id).balance
+    });
+  }
+
+  res.json({
+    ok: true,
+    running: true,
+    multiplier,
+    balance: getUser(id).balance
+  });
+});
+
+/* برداشت */
+
+app.post("/api/game/cashout", auth, (req, res) => {
+
+  const id = String(req.telegramUser.id);
+
+  const game = getActiveGame(id);
+
+  if (!game) {
+    return res.status(400).json({
+      ok: false,
+      error: "بازی فعالی وجود ندارد"
+    });
+  }
+
+  const seconds =
+    (Date.now() - game.started_at) / 1000;
+
+  const multiplier = Number(
+    (1 + Math.pow(seconds, 1.45) * 0.34).toFixed(2)
+  );
+
+  if (multiplier >= game.crash_at) {
+
+    db.prepare(`
+      UPDATE games
+      SET status = 'crashed',
+          multiplier = ?,
+          finished_at = ?
+      WHERE id = ?
+      AND status = 'running'
+    `).run(
+      game.crash_at,
+      Date.now(),
+      game.id
+    );
+
+    return res.json({
+      ok: true,
+      crashed: true,
+      multiplier: game.crash_at,
+      balance: getUser(id).balance
+    });
+  }
+
+  const payout = Math.floor(
+    game.bet * multiplier
+  );
+
+  db.transaction(() => {
+
+    db.prepare(`
+      UPDATE games
+      SET status = 'cashed_out',
+          multiplier = ?,
+          payout = ?,
+          finished_at = ?
+      WHERE id = ?
+      AND status = 'running'
+    `).run(
+      multiplier,
+      payout,
+      Date.now(),
+      game.id
+    );
+
+    db.prepare(`
+      UPDATE users
+      SET balance = balance + ?
+      WHERE telegram_id = ?
+    `).run(
+      payout,
+      id
+    );
+
+  })();
+
+  res.json({
+    ok: true,
+    crashed: false,
+    multiplier,
+    payout,
+    balance: getUser(id).balance
+  });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "public", "index.html")
+  );
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
