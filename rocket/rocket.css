@@ -1,370 +1,204 @@
 *{
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+box-sizing:border-box;
+font-family:Arial;
 }
-
 
 body{
+margin:0;
+background:#070b18;
+color:white;
+}
 
-    margin:0;
-    background:
-    radial-gradient(circle at top,#1e293b,#020617 70%);
 
-    color:white;
-    overflow:hidden;
+.app{
+padding:25px;
+}
 
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+
+h1{
+font-size:42px;
+}
+
+
+.balance{
+background:#151b32;
+padding:20px 35px;
+border-radius:35px;
+font-size:28px;
 }
 
 
 
-/* نوار بالا */
+.space{
 
-.topbar{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:20px;
-
-}
-
-
-.title{
-
-    font-size:32px;
-    font-weight:bold;
+height:700px;
+margin-top:40px;
+border-radius:40px;
+background:#05091a;
+position:relative;
+overflow:hidden;
 
 }
 
-
-.wallet{
-
-    background:#151b2d;
-
-    padding:15px 25px;
-
-    border-radius:30px;
-
-    font-size:22px;
-
-    box-shadow:0 0 20px #000;
-
-}
-
-
-
-/* فضای بازی */
-
-.rocket-area{
-
-    height:420px;
-
-    position:relative;
-
-    overflow:hidden;
-
-    margin:10px;
-
-    border-radius:30px;
-
-    background:
-    linear-gradient(
-    #020617,
-    #0f172a
-    );
-
-}
-
-
-
-/* ستاره ها */
 
 .stars{
 
-    position:absolute;
+position:absolute;
+inset:0;
 
-    width:200%;
-    height:200%;
+background-image:
+radial-gradient(white 2px,transparent 2px);
 
-    background-image:
-    radial-gradient(white 1px,transparent 1px);
+background-size:100px 100px;
 
-    background-size:45px 45px;
-
-    animation:stars 12s linear infinite;
+opacity:.5;
 
 }
-
-
-@keyframes stars{
-
-from{
-
-transform:translateY(0);
-
-}
-
-to{
-
-transform:translateY(100px);
-
-}
-
-}
-
-
 
 
 
 #multiplier{
 
-    position:absolute;
+position:absolute;
+top:250px;
+width:100%;
+text-align:center;
 
-    width:100%;
-
-    top:40%;
-
-    text-align:center;
-
-    font-size:75px;
-
-    font-weight:900;
-
-    z-index:2;
+font-size:110px;
+font-weight:bold;
 
 }
-
-
 
 
 
 #rocket{
 
-    position:absolute;
+position:absolute;
 
-    bottom:50px;
+width:120px;
 
-    left:45%;
+bottom:100px;
 
-    font-size:80px;
+left:50%;
 
-    z-index:3;
+transform:translateX(-50%);
 
-    transition:.15s;
+transition:.2s;
 
 }
-
-
 
 
 
 .history{
 
-    display:flex;
+display:flex;
 
-    gap:10px;
+gap:20px;
 
-    padding:10px;
+margin-top:30px;
 
-    overflow:hidden;
+}
+
+
+.history button{
+
+flex:1;
+
+padding:25px;
+
+border-radius:40px;
+
+background:#202940;
+
+color:white;
+
+border:0;
+
+font-size:25px;
 
 }
 
 
 
-.history div{
+.betbox{
 
-    background:#1e293b;
+background:#11182c;
 
-    padding:12px 22px;
+padding:25px;
 
-    border-radius:25px;
+margin-top:25px;
 
-    font-weight:bold;
-
-}
-
-
-.history .red{
-
-    background:#991b1b;
+border-radius:30px;
 
 }
 
 
+.betbox button{
 
+padding:15px 25px;
 
+border-radius:20px;
 
-/* شرط */
-
-.bet-box{
-
-    margin:10px;
-
-    background:#111827;
-
-    padding:20px;
-
-    border-radius:25px;
-
-    text-align:center;
+font-size:20px;
 
 }
-
-
-
-button{
-
-    border:none;
-
-    border-radius:15px;
-
-    padding:14px 25px;
-
-    margin:5px;
-
-    font-size:18px;
-
-    cursor:pointer;
-
-}
-
-
-
-
-
-.bet-box button{
-
-    background:#2563eb;
-
-    color:white;
-
-}
-
-
-
-
-
-/* بازیکنان */
-
-
-.players{
-
-    background:#111827;
-
-    margin:10px;
-
-    padding:15px;
-
-    border-radius:25px;
-
-}
-
-
-
-.player{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    padding:12px;
-
-    background:#1f2937;
-
-    margin-top:8px;
-
-    border-radius:15px;
-
-}
-
-
-
-
-.actions{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:20px;
-
-}
-
 
 
 .start{
 
-    background:#22c55e;
+background:#159447;
 
-    color:white;
+color:white;
 
 }
-
 
 
 .cash{
 
-    background:#eab308;
+background:#c43a3a;
+
+color:white;
 
 }
-
-
-
-
-
-#message{
-
-    text-align:center;
-
-    font-size:24px;
-
-    margin:10px;
-
-}
-
 
 
 
 nav{
 
-    position:fixed;
+position:fixed;
 
-    bottom:0;
+bottom:0;
 
-    left:0;
+left:0;
 
-    width:100%;
+right:0;
 
-    background:#111827;
+height:90px;
 
-    display:flex;
+background:#101728;
 
-    justify-content:space-around;
+display:flex;
 
-    padding:15px 0;
+justify-content:space-around;
 
-    border-radius:25px 25px 0 0;
+align-items:center;
 
-}
-
-
-
-nav div{
-
-    text-align:center;
-
-    color:#94a3b8;
-
-    font-size:14px;
+font-size:18px;
 
 }
 
 
+.active{
 
-nav .active{
+color:white;
 
-    color:white;
+font-size:22px;
 
-      }
+}
