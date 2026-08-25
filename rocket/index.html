@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rocket</title>
+<title>🚀 Rocket</title>
+
 <link rel="stylesheet" href="rocket.css">
 </head>
 
 <body>
-
-<div class="app">
 
 <header>
     <h1>🚀 Rocket</h1>
@@ -20,78 +19,92 @@
 </header>
 
 
-<div class="space">
+<div class="game">
 
-<div class="stars"></div>
+    <div class="stars"></div>
 
-<div id="multiplier">
-1.00x
-</div>
-
-<img id="rocket" 
-src="https://em-content.zobj.net/source/apple/391/rocket_1f680.png">
-
-</div>
+    <div id="multiplier" class="multiplier">
+        1.00x
+    </div>
 
 
-<div class="history">
-
-<button>1.12x</button>
-<button>2.45x</button>
-<button>3.90x</button>
-<button>7.25x</button>
+    <div id="rocket" class="rocket">
+        🚀
+    </div>
 
 </div>
 
 
 
-<div class="betbox">
+<div class="buttons">
+
+<button class="cash" onclick="cashOut(1.12)">
+1.12x
+</button>
+
+<button class="cash" onclick="cashOut(2.45)">
+2.45x
+</button>
+
+<button class="cash" onclick="cashOut(3.90)">
+3.90x
+</button>
+
+<button class="cash" onclick="cashOut(7.25)">
+7.25x
+</button>
+
+</div>
+
+
+
+<section class="bet">
 
 <h2>PLACE BET</h2>
 
-<div>
-<button onclick="bet(10)">💎 10</button>
-<button onclick="bet(50)">💎 50</button>
-<button onclick="bet(100)">💎 100</button>
+
+<div class="bets">
+
+<button onclick="placeBet(10)">
+💎 10
+</button>
+
+<button onclick="placeBet(50)">
+💎 50
+</button>
+
+<button onclick="placeBet(100)">
+💎 100
+</button>
+
 </div>
 
 
-<p>
-👤 Player1 💎10
-<br>
-👤 Player2 💎50
-<br>
-👤 Player3 💎100
-</p>
+<div class="players">
+
+<p>👤 Player1 💎10</p>
+<p>👤 Player2 💎50</p>
+<p>👤 Player3 💎100</p>
+
+</div>
 
 
-<button class="start" onclick="startGame()">
+
+<button id="start">
 🚀 START
 </button>
 
-<button class="cash" onclick="cashOut()">
+
+<button id="cashout">
 💰 CASH OUT
 </button>
 
-</div>
 
+</section>
 
-
-<nav>
-
-<div>⚔️<br>PVP</div>
-<div>🎮<br>Games</div>
-<div class="active">🚀<br>Rocket</div>
-<div>🏆<br>Ranks</div>
-<div>👤<br>Profile</div>
-
-</nav>
-
-
-</div>
 
 
 <script src="rocket.js"></script>
 
 </body>
-  </html>
+</html>
