@@ -1,13 +1,58 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Aryantred</title>
 
 <style>
+<script>
 
+const tg = window.Telegram.WebApp;
+
+tg.ready();
+
+let user = tg.initDataUnsafe.user;
+
+
+if(user){
+
+fetch("آدرس_API_تو/user",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+id:user.id,
+
+name:user.first_name
+
+})
+
+})
+
+
+.then(res=>res.json())
+
+.then(data=>{
+
+
+document.getElementById("balance").innerHTML =
+data.points+" ARY";
+
+
+});
+
+}
+
+
+</script>
 body{
 margin:0;
 background:#050507;
@@ -107,8 +152,8 @@ ARYANTRED
 
 موجودی شما
 
-<div class="balance">
-1000 ARY
+<div class="balance" id="balance">
+در حال دریافت...
 </div>
 
 <button>
