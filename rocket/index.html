@@ -1,80 +1,231 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🚀 Rocket</title>
+
+<title>Rocket Game</title>
+
 <link rel="stylesheet" href="rocket.css">
+
 </head>
+
 
 <body>
 
-<header>
-    <h1>🚀 Rocket</h1>
 
-    <div class="balance">
-        💎 <span id="balance">1000</span>
-    </div>
-</header>
+<audio id="launchSound" src="sounds/launch.mp3"></audio>
+<audio id="crashSound" src="sounds/crash.mp3"></audio>
 
 
-<div class="space">
 
-    <div class="stars"></div>
+<div class="topbar">
 
-    <div id="multiplier">1.00x</div>
+<div class="title">
+🚀 Rocket
+</div>
 
-    <div id="rocket">🚀</div>
+
+<div class="wallet">
+💎 <span id="coins">1000</span>
+</div>
 
 </div>
+
+
+
+<div class="rocket-area">
+
+
+<div class="stars"></div>
+
+
+<div id="multiplier">
+1.00x
+</div>
+
+
+<div id="rocket">
+🚀
+</div>
+
+
+</div>
+
+
 
 
 <div class="history">
-    <span>BET</span>
-    <span>1.25x</span>
-    <span>1.78x</span>
-    <span>2.55x</span>
-    <span>8.96x</span>
+
+<div class="red">1.12x</div>
+<div>2.45x</div>
+<div>3.90x</div>
+<div>7.25x</div>
+<div>12.40x</div>
+
+</div>
+
+
+
+
+
+<div class="bet-box">
+
+
+<h3>
+انتخاب شرط
+</h3>
+
+
+<button onclick="setBet(10)">
+💎 10
+</button>
+
+
+<button onclick="setBet(50)">
+💎 50
+</button>
+
+
+<button onclick="setBet(100)">
+💎 100
+</button>
+
+
 </div>
 
 
-<div class="bets">
 
-<button onclick="bet(10)">💎 10</button>
-<button onclick="bet(50)">💎 50</button>
-<button onclick="bet(100)">💎 100</button>
+
+
+
+<div class="players">
+
+
+<h3>
+👥 بازیکنان
+</h3>
+
+
+<div class="player">
+
+<span>
+🟢 Ali
+</span>
+
+<span>
+💎 10
+</span>
 
 </div>
+
+
+<div class="player">
+
+<span>
+🔵 Reza
+</span>
+
+<span>
+💎 50
+</span>
+
+</div>
+
+
+<div class="player">
+
+<span>
+🟣 Sara
+</span>
+
+<span>
+💎 100
+</span>
+
+</div>
+
+
+</div>
+
+
+
+
+
 
 
 <div class="actions">
 
+
 <button class="start" onclick="startGame()">
-🚀 START
+🚀 شروع
 </button>
+
 
 <button class="cash" onclick="cashOut()">
-💰 CASH OUT
+💰 برداشت
 </button>
 
+
 </div>
+
+
 
 
 <div id="message"></div>
 
 
+
+
+
+
 <nav>
 
-<div>⚔️<br>PVP</div>
-<div>🎮<br>GAMES</div>
-<div class="active">🚀<br>ROCKET</div>
-<div>🏆<br>RANKS</div>
-<div>👤<br>PROFILE</div>
+
+<div>
+⚔️
+<br>
+PVP
+</div>
+
+
+<div>
+🎮
+<br>
+Games
+</div>
+
+
+<div class="active">
+🚀
+<br>
+Rocket
+</div>
+
+
+<div>
+🏆
+<br>
+Ranks
+</div>
+
+
+<div>
+👤
+<br>
+Profile
+</div>
+
 
 </nav>
 
 
+
+
+
 <script src="rocket.js"></script>
 
+
 </body>
-</html>
+    </html>
