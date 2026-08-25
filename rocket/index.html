@@ -1,110 +1,361 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🚀 Rocket</title>
+<html lang="fa" dir="rtl">
 
-<link rel="stylesheet" href="rocket.css">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🎮 Game Center</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:tahoma,Arial;
+}
+
+
+body{
+
+margin:0;
+
+background:
+linear-gradient(180deg,#050816,#111827);
+
+color:white;
+
+min-height:100vh;
+
+}
+
+
+.header{
+
+padding:25px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+
+.logo{
+
+font-size:32px;
+
+font-weight:bold;
+
+}
+
+
+
+.wallet{
+
+background:#1f2937;
+
+padding:15px 25px;
+
+border-radius:30px;
+
+font-size:20px;
+
+}
+
+
+
+.container{
+
+padding:20px;
+
+}
+
+
+
+h2{
+
+font-size:25px;
+
+}
+
+
+
+.games{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:20px;
+
+}
+
+
+
+.game{
+
+background:#172033;
+
+border-radius:25px;
+
+padding:25px;
+
+text-align:center;
+
+font-size:22px;
+
+cursor:pointer;
+
+transition:.2s;
+
+border:1px solid #26334d;
+
+}
+
+
+.game:hover{
+
+transform:scale(1.05);
+
+background:#24324d;
+
+}
+
+
+
+.icon{
+
+font-size:55px;
+
+}
+
+
+
+.bottom{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+right:0;
+
+height:80px;
+
+background:#111827;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+border-radius:30px 30px 0 0;
+
+}
+
+
+.bottom div{
+
+text-align:center;
+
+color:#9ca3af;
+
+font-size:14px;
+
+}
+
+
+.active{
+
+color:white!important;
+
+}
+
+
+
+</style>
+
 </head>
+
 
 <body>
 
-<header>
-    <h1>🚀 Rocket</h1>
 
-    <div class="balance">
-        💎 <span id="balance">1000</span>
-    </div>
-</header>
+<div class="header">
+
+
+<div class="logo">
+🎮 Game Center
+</div>
+
+
+<div class="wallet">
+
+💎 1000
+
+</div>
+
+
+</div>
+
+
+
+<div class="container">
+
+
+<h2>
+🔥 بازی‌ها
+</h2>
+
+
+
+<div class="games">
+
+
+
+<div class="game" onclick="openGame('rocket')">
+
+<div class="icon">
+🚀
+</div>
+
+Rocket
+
+</div>
+
+
 
 
 <div class="game">
 
-    <div class="stars"></div>
+<div class="icon">
+❌⭕
+</div>
 
-    <div id="multiplier" class="multiplier">
-        1.00x
-    </div>
-
-
-    <div id="rocket" class="rocket">
-        🚀
-    </div>
+XO
 
 </div>
 
 
 
-<div class="buttons">
 
-<button class="cash" onclick="cashOut(1.12)">
-1.12x
-</button>
+<div class="game">
 
-<button class="cash" onclick="cashOut(2.45)">
-2.45x
-</button>
+<div class="icon">
+✊✋✌️
+</div>
 
-<button class="cash" onclick="cashOut(3.90)">
-3.90x
-</button>
-
-<button class="cash" onclick="cashOut(7.25)">
-7.25x
-</button>
+سنگ کاغذ قیچی
 
 </div>
 
 
 
-<section class="bet">
 
-<h2>PLACE BET</h2>
+<div class="game">
 
-
-<div class="bets">
-
-<button onclick="placeBet(10)">
-💎 10
-</button>
-
-<button onclick="placeBet(50)">
-💎 50
-</button>
-
-<button onclick="placeBet(100)">
-💎 100
-</button>
-
+<div class="icon">
+🎲
 </div>
 
-
-<div class="players">
-
-<p>👤 Player1 💎10</p>
-<p>👤 Player2 💎50</p>
-<p>👤 Player3 💎100</p>
+Dice
 
 </div>
 
 
 
-<button id="start">
-🚀 START
-</button>
+<div class="game">
 
+<div class="icon">
+🪙
+</div>
 
-<button id="cashout">
-💰 CASH OUT
-</button>
+Coin Flip
 
-
-</section>
+</div>
 
 
 
-<script src="rocket.js"></script>
+<div class="game">
+
+<div class="icon">
+🎯
+</div>
+
+Guess
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="bottom">
+
+
+<div>
+🏠
+<br>
+Home
+</div>
+
+
+<div class="active">
+🎮
+<br>
+Games
+</div>
+
+
+<div>
+🏆
+<br>
+Ranks
+</div>
+
+
+<div>
+👤
+<br>
+Profile
+</div>
+
+
+</div>
+
+
+
+
+<script>
+
+
+function openGame(game){
+
+if(game=="rocket"){
+
+window.location.href="rocket/";
+
+}
+
+}
+
+
+</script>
+
+
 
 </body>
-</html>
+
+    </html>
