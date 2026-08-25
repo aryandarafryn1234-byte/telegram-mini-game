@@ -2,137 +2,147 @@ let multiplier = 1;
 
 let running = false;
 
-let crashed = false;
+let bet = 0;
 
-let betAmount = 0;
+let timer;
 
 
-let rocket =
+const rocket =
 document.getElementById("rocket");
 
-let display =
+const multi =
 document.getElementById("multiplier");
 
 
+const balance =
+document.getElementById("balance");
 
-function bet(amount){
 
-betAmount = amount;
 
-alert("Bet: "+amount+" 💎");
+function placeBet(amount){
+
+if(running)return;
+
+
+if(Number(balance.innerHTML)>=amount){
+
+bet=amount;
+
+balance.innerHTML =
+Number(balance.innerHTML)-amount;
+
+alert("Bet placed: "+amount);
+
+}
 
 }
 
 
 
-function startGame(){
+document.getElementById("start")
+.onclick=function(){
 
-if(running) return;
+
+if(running)return;
 
 
 running=true;
 
-crashed=false;
-
 multiplier=1;
 
 
-rocket.style.bottom="100px";
+multi.innerHTML="1.00x";
+
+
+let crash =
+Math.random()*8+2;
 
 
 
-let audio =
-new AudioContext();
-
-let osc =
-audio.createOscillator();
-
-osc.frequency.value=300;
-
-osc.connect(audio.destination);
-
-osc.start();
-
-osc.stop(audio.currentTime+0.3);
+timer=setInterval(()=>{
 
 
-
-let game=setInterval(()=>{
-
-
-multiplier += 0.01;
+multiplier+=0.01;
 
 
-display.innerHTML =
+multi.innerHTML=
 multiplier.toFixed(2)+"x";
 
 
-
-let move =
-(multiplier-1)*35;
-
-
 rocket.style.bottom =
-(100+move)+"px";
+(120 + multiplier*25)+"px";
+
+
+rocket.style.transform=
+"rotate(-20deg)";
 
 
 
-rocket.style.transform =
-"rotate(-25deg)";
+if(multiplier>=crash){
 
 
-
-let crashChance =
-Math.random();
-
-
-
-if(multiplier>2 && crashChance<0.02){
-
-
-clearInterval(game);
-
+clearInterval(timer);
 
 running=false;
 
-crashed=true;
 
-
-display.innerHTML="💥 CRASH";
-
-
-rocket.style.bottom="100px";
-
-
-}
-
-
-},100);
-
+alert(
+"💥 Rocket crashed at "+
+multiplier.toFixed(2)+"x"
+);
 
 
 }
 
+},50);
 
 
-function cashOut(){
 
-if(!running){
+};
 
-alert("Start game first");
 
-return;
 
-}
+document.getElementById("cashout")
+.onclick=function(){
+
+
+if(!running || bet==0)return;
 
 
 let win =
-betAmount * multiplier;
+Math.floor(bet*multiplier);
+
+
+balance.innerHTML =
+Number(balance.innerHTML)+win;
 
 
 alert(
-"WIN 💎 "+win.toFixed(2)
+"💰 Won "+win
 );
 
+
+bet=0;
+
+
+};
+
+
+
+function cashOut(x){
+
+if(bet>0){
+
+let win =
+Math.floor(bet*x);
+
+
+balance.innerHTML =
+Number(balance.innerHTML)+win;
+
+
+bet=0;
+
+}
 
 }
