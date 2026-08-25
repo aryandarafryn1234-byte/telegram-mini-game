@@ -1,97 +1,63 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rocket</title>
-<link rel="stylesheet" href="rocket.css">
-</head>
+let multiplier = 1;
+let timer;
+let running = false;
 
-<body>
-
-<div class="app">
-
-<header>
-    <h1>🚀 Rocket</h1>
-
-    <div class="balance">
-        💎 <span id="balance">1000</span>
-    </div>
-</header>
+const rocket = document.getElementById("rocket");
+const display = document.getElementById("multiplier");
 
 
-<div class="space">
+function startGame(){
 
-<div class="stars"></div>
+if(running) return;
 
-<div id="multiplier">
-1.00x
-</div>
-
-<img id="rocket" 
-src="https://em-content.zobj.net/source/apple/391/rocket_1f680.png">
-
-</div>
+running=true;
+multiplier=1;
 
 
-<div class="history">
+timer=setInterval(()=>{
 
-<button>1.12x</button>
-<button>2.45x</button>
-<button>3.90x</button>
-<button>7.25x</button>
+multiplier += 0.05;
 
-</div>
+display.innerHTML =
+multiplier.toFixed(2)+"x";
 
 
-
-<div class="betbox">
-
-<h2>PLACE BET</h2>
-
-<div>
-<button onclick="bet(10)">💎 10</button>
-<button onclick="bet(50)">💎 50</button>
-<button onclick="bet(100)">💎 100</button>
-</div>
+rocket.style.bottom =
+(100 + multiplier*20)+"px";
 
 
-<p>
-👤 Player1 💎10
-<br>
-👤 Player2 💎50
-<br>
-👤 Player3 💎100
-</p>
+rocket.style.left =
+(50 + multiplier)+"%";
 
 
-<button class="start" onclick="startGame()">
-🚀 START
-</button>
+if(multiplier >= 10){
 
-<button class="cash" onclick="cashOut()">
-💰 CASH OUT
-</button>
+clearInterval(timer);
 
-</div>
+display.innerHTML="💥 CRASH";
+
+running=false;
+
+}
+
+},100);
+
+}
 
 
 
-<nav>
+function cashOut(){
 
-<div>⚔️<br>PVP</div>
-<div>🎮<br>Games</div>
-<div class="active">🚀<br>Rocket</div>
-<div>🏆<br>Ranks</div>
-<div>👤<br>Profile</div>
+if(running){
 
-</nav>
+alert(
+"WIN 💎 "+multiplier.toFixed(2)+"x"
+);
 
+}else{
 
-</div>
+alert("بازی شروع نشده");
 
+}
 
-<script src="rocket.js"></script>
-
-</body>
-</html>
+}
