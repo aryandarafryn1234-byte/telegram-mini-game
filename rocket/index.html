@@ -1,185 +1,13 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>🎮 Game Center</title>
+<title>🚀 Rocket</title>
 
-<style>
-
-*{
-box-sizing:border-box;
-font-family:tahoma,Arial;
-}
-
-
-body{
-
-margin:0;
-
-background:
-linear-gradient(180deg,#050816,#111827);
-
-color:white;
-
-min-height:100vh;
-
-}
-
-
-.header{
-
-padding:25px;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-}
-
-
-.logo{
-
-font-size:32px;
-
-font-weight:bold;
-
-}
-
-
-
-.wallet{
-
-background:#1f2937;
-
-padding:15px 25px;
-
-border-radius:30px;
-
-font-size:20px;
-
-}
-
-
-
-.container{
-
-padding:20px;
-
-}
-
-
-
-h2{
-
-font-size:25px;
-
-}
-
-
-
-.games{
-
-display:grid;
-
-grid-template-columns:1fr 1fr;
-
-gap:20px;
-
-}
-
-
-
-.game{
-
-background:#172033;
-
-border-radius:25px;
-
-padding:25px;
-
-text-align:center;
-
-font-size:22px;
-
-cursor:pointer;
-
-transition:.2s;
-
-border:1px solid #26334d;
-
-}
-
-
-.game:hover{
-
-transform:scale(1.05);
-
-background:#24324d;
-
-}
-
-
-
-.icon{
-
-font-size:55px;
-
-}
-
-
-
-.bottom{
-
-position:fixed;
-
-bottom:0;
-
-left:0;
-
-right:0;
-
-height:80px;
-
-background:#111827;
-
-display:flex;
-
-justify-content:space-around;
-
-align-items:center;
-
-border-radius:30px 30px 0 0;
-
-}
-
-
-.bottom div{
-
-text-align:center;
-
-color:#9ca3af;
-
-font-size:14px;
-
-}
-
-
-.active{
-
-color:white!important;
-
-}
-
-
-
-</style>
+<link rel="stylesheet" href="rocket.css">
 
 </head>
 
@@ -187,114 +15,84 @@ color:white!important;
 <body>
 
 
-<div class="header">
+<header>
 
-
-<div class="logo">
-🎮 Game Center
+<div class="title">
+🚀 Rocket
 </div>
-
 
 <div class="wallet">
+💎 <span id="balance">1000</span>
+</div>
 
-💎 1000
+</header>
+
+
+
+<section class="rocket-box">
+
+
+<div class="stars"></div>
+
+
+<div id="multiplier">
+1.00x
+</div>
+
+
+<div id="rocket">
+🚀
+</div>
+
+
+<div id="message">
+WAITING...
+</div>
+
+
+</section>
+
+
+
+
+
+<div class="history">
+
+<div class="x">1.20x</div>
+<div class="x">2.40x</div>
+<div class="x">3.90x</div>
+<div class="x">6.70x</div>
 
 </div>
 
 
-</div>
 
 
 
-<div class="container">
+<section class="bet-box">
 
 
 <h2>
-🔥 بازی‌ها
+Place bet
 </h2>
 
 
 
-<div class="games">
+<div class="amounts">
+
+<button onclick="selectBet(10)">
+💎 10
+</button>
 
 
-
-<div class="game" onclick="openGame('rocket')">
-
-<div class="icon">
-🚀
-</div>
-
-Rocket
-
-</div>
+<button onclick="selectBet(50)">
+💎 50
+</button>
 
 
-
-
-<div class="game">
-
-<div class="icon">
-❌⭕
-</div>
-
-XO
-
-</div>
-
-
-
-
-<div class="game">
-
-<div class="icon">
-✊✋✌️
-</div>
-
-سنگ کاغذ قیچی
-
-</div>
-
-
-
-
-<div class="game">
-
-<div class="icon">
-🎲
-</div>
-
-Dice
-
-</div>
-
-
-
-<div class="game">
-
-<div class="icon">
-🪙
-</div>
-
-Coin Flip
-
-</div>
-
-
-
-<div class="game">
-
-<div class="icon">
-🎯
-</div>
-
-Guess
-
-</div>
-
-
-
-</div>
+<button onclick="selectBet(100)">
+💎 100
+</button>
 
 
 </div>
@@ -302,58 +100,88 @@ Guess
 
 
 
-<div class="bottom">
+<button id="place">
+PLACE BET
+</button>
+
+
+
+<button id="cashout">
+💰 CASH OUT
+</button>
+
+
+
+<div class="players">
 
 
 <div>
+👤 Player1 💎10
+</div>
+
+<div>
+👤 Player2 💎50
+</div>
+
+
+<div>
+👤 Player3 💎100
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<nav>
+
+<div>
+🎒
+<br>
+Backpack
+</div>
+
+
+<div>
+👥
+<br>
+Invite
+</div>
+
+
+<div class="active">
 🏠
 <br>
 Home
 </div>
 
 
-<div class="active">
-🎮
-<br>
-Games
-</div>
-
-
 <div>
 🏆
 <br>
-Ranks
+Leaderboard
 </div>
 
 
 <div>
-👤
+💎
 <br>
-Profile
+Earn
 </div>
 
 
-</div>
+</nav>
 
 
 
 
-<script>
 
-
-function openGame(game){
-
-if(game=="rocket"){
-
-window.location.href="rocket/";
-
-}
-
-}
-
-
-</script>
-
+<script src="rocket.js"></script>
 
 
 </body>
