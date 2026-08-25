@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rocket Game</title>
+<link rel="stylesheet" href="rocket.css">
+</head>
+
+<body>
+
+<div class="top">
+    <h2>🚀 Rocket</h2>
+
+    <div class="wallet">
+        💎 <span id="balance">1000</span>
+    </div>
+</div>
+
+
+<div class="space">
+
+    <div id="rocket">🚀</div>
+
+    <div id="multiplier">
+        1.00x
+    </div>
+
+</div>
+
+
+
+<div class="history">
+
+<span>BET</span>
+<span>1.78x</span>
+<span>2.55x</span>
+<span>8.96x</span>
+<span>1.25x</span>
+</div>
+
+
+
+<div class="betbox">
+
+<h3>PLACE BET</h3>
+
+
+<button onclick="bet(10)">
+💎 10
+</button>
+
+<button onclick="bet(50)">
+💎 50
+</button>
+
+<button onclick="bet(100)">
+💎 100
+</button>
+
+
+</div>
+
+
+
+<div class="players">
+
+<div>
+👤 Player1
+<b>💎 10</b>
+</div>
+
+<div>
+👤 Player2
+<b>💎 50</b>
+</div>
+
+<div>
+👤 Player3
+<b>💎 100</b>
+</div>
+
+</div>
+
+
+
+<button class="start" onclick="startRocket()">
+🚀 START
+</button>
+
+
+<button class="cash" onclick="cashOut()">
+💰 CASH OUT
+</button>
+
+
+<h2 id="message"></h2>
+
+
+
+<script src="rocket.js"></script>
+
+</body>
+  </html>
