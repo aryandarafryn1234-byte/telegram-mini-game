@@ -1,148 +1,205 @@
+let balance = 1000;
+
+let betAmount = 0;
+
 let multiplier = 1;
 
 let running = false;
 
-let bet = 0;
-
 let timer;
 
 
-const rocket =
-document.getElementById("rocket");
-
-const multi =
-document.getElementById("multiplier");
-
-
-const balance =
-document.getElementById("balance");
+const rocket = document.getElementById("rocket");
+const multi = document.getElementById("multiplier");
+const balanceText = document.getElementById("balance");
+const info = document.getElementById("info");
 
 
 
-function placeBet(amount){
+function setBet(amount){
 
-if(running)return;
-
-
-if(Number(balance.innerHTML)>=amount){
-
-bet=amount;
-
-balance.innerHTML =
-Number(balance.innerHTML)-amount;
-
-alert("Bet placed: "+amount);
-
-}
-
-}
+    if(running){
+        return;
+    }
 
 
+    if(balance < amount){
 
-document.getElementById("start")
-.onclick=function(){
+        info.innerHTML="❌ موجودی کافی نیست";
+        return;
 
-
-if(running)return;
-
-
-running=true;
-
-multiplier=1;
+    }
 
 
-multi.innerHTML="1.00x";
+    betAmount = amount;
 
 
-let crash =
-Math.random()*8+2;
-
-
-
-timer=setInterval(()=>{
-
-
-multiplier+=0.01;
-
-
-multi.innerHTML=
-multiplier.toFixed(2)+"x";
-
-
-rocket.style.bottom =
-(120 + multiplier*25)+"px";
-
-
-rocket.style.transform=
-"rotate(-20deg)";
-
-
-
-if(multiplier>=crash){
-
-
-clearInterval(timer);
-
-running=false;
-
-
-alert(
-"💥 Rocket crashed at "+
-multiplier.toFixed(2)+"x"
-);
-
+    info.innerHTML =
+    "💎 Bet: " + amount;
 
 }
 
-},50);
 
 
 
-};
+
+function startGame(){
+
+
+    if(running){
+        return;
+    }
+
+
+    if(betAmount === 0){
+
+        info.innerHTML=
+        "اول مبلغ را انتخاب کن";
+
+        return;
+
+    }
 
 
 
-document.getElementById("cashout")
-.onclick=function(){
+    balance -= betAmount;
 
-
-if(!running || bet==0)return;
-
-
-let win =
-Math.floor(bet*multiplier);
-
-
-balance.innerHTML =
-Number(balance.innerHTML)+win;
-
-
-alert(
-"💰 Won "+win
-);
-
-
-bet=0;
-
-
-};
+    balanceText.innerHTML = balance;
 
 
 
-function cashOut(x){
+    multiplier = 1;
 
-if(bet>0){
-
-let win =
-Math.floor(bet*x);
+    running = true;
 
 
-balance.innerHTML =
-Number(balance.innerHTML)+win;
+
+    let crashPoint =
+    (Math.random()*7 + 1.5);
 
 
-bet=0;
+
+    info.innerHTML =
+    "🚀 Rocket launched";
+
+
+
+    timer = setInterval(()=>{
+
+
+        multiplier += 0.03;
+
+
+
+        multi.innerHTML =
+        multiplier.toFixed(2)+"x";
+
+
+
+        rocket.style.bottom =
+        (60 + multiplier*25)+"px";
+
+
+
+        rocket.style.transform =
+        "rotate(-25deg)";
+
+
+
+
+
+        if(multiplier >= crashPoint){
+
+
+            clearInterval(timer);
+
+            running=false;
+
+
+            multi.innerHTML =
+            "💥 CRASH";
+
+
+            rocket.innerHTML="💥";
+
+
+            info.innerHTML =
+            "باختی 😢";
+
+
+
+            setTimeout(()=>{
+
+                rocket.innerHTML="🚀";
+
+                rocket.style.bottom="60px";
+
+                rocket.style.transform="";
+
+                multi.innerHTML="1.00x";
+
+            },1500);
+
+
+        }
+
+
+
+    },100);
+
+
 
 }
+
+
+
+
+
+
+
+function cashOut(){
+
+
+    if(!running){
+
+        info.innerHTML=
+        "بازی شروع نشده";
+
+        return;
+
+    }
+
+
+
+    let win =
+    Math.floor(
+        betAmount * multiplier
+    );
+
+
+
+    balance += win;
+
+
+    balanceText.innerHTML =
+    balance;
+
+
+
+    info.innerHTML =
+    "🎉 بردی 💎 "+win;
+
+
+
+    clearInterval(timer);
+
+
+    running=false;
+
+
+
+    rocket.style.bottom="60px";
+
+    rocket.style.transform="";
 
 }
