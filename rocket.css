@@ -1,251 +1,174 @@
 *{
 box-sizing:border-box;
+font-family:Arial;
 }
 
 body{
-
 margin:0;
-
-background:#08090d;
-
+background:#05060b;
 color:white;
-
-font-family:Arial;
-
+height:100vh;
+overflow:hidden;
 }
 
 
-.header{
-
+header{
 display:flex;
-
 justify-content:space-between;
-
-padding:20px;
-
 align-items:center;
+padding:25px;
+}
+
+
+h1{
+font-size:35px;
+}
+
+
+.balance{
+
+background:#151824;
+padding:18px 30px;
+border-radius:40px;
+font-size:30px;
 
 }
 
 
-.wallet{
+.space{
 
-background:#161922;
-
-padding:15px 25px;
-
-border-radius:30px;
-
-font-size:20px;
-
+height:65vh;
+position:relative;
+text-align:center;
 }
 
 
+.stars{
 
-.game{
+position:absolute;
+inset:0;
 
-height:430px;
-
-margin:10px;
-
-border-radius:30px;
-
-background:
+background-image:
 radial-gradient(#555 1px,transparent 1px);
 
-background-size:45px 45px;
-
-position:relative;
-
-overflow:hidden;
+background-size:70px 70px;
 
 }
 
+
+#multiplier{
+
+position:absolute;
+top:45%;
+width:100%;
+
+font-size:90px;
+font-weight:bold;
+
+}
 
 
 #rocket{
 
 position:absolute;
 
-bottom:20px;
-
+bottom:80px;
 left:45%;
 
-font-size:70px;
+font-size:90px;
 
 transition:.2s;
 
 }
 
 
-
-#multi{
-
-position:absolute;
-
-top:45%;
-
-width:100%;
-
-text-align:center;
-
-font-size:65px;
-
-font-weight:bold;
-
-}
-
-
-
 .history{
 
 display:flex;
-
-gap:10px;
-
-padding:15px;
-
+gap:15px;
+padding:10px;
 overflow:hidden;
 
 }
 
 
+.history span{
 
-.history div{
+background:#252c3d;
+padding:15px 25px;
 
-background:#242936;
-
-padding:12px 18px;
-
-border-radius:25px;
+border-radius:30px;
 
 }
 
 
+.bets{
 
-.bet{
-
-margin:10px;
-
-padding:20px;
-
-background:#11131a;
-
-border-radius:25px;
-
-text-align:center;
+display:flex;
+justify-content:center;
+gap:15px;
 
 }
-
 
 
 button{
 
 border:0;
 
-border-radius:18px;
+padding:15px 25px;
 
-padding:15px;
+border-radius:12px;
 
 font-size:18px;
 
-margin:5px;
-
 }
 
 
-
-.bet button{
-
-background:#2563eb;
-
-color:white;
-
-}
-
-
-
-.users{
-
-padding:10px;
-
-}
-
-
-
-.users div{
-
-background:#161922;
-
-padding:18px;
-
-margin:10px;
-
-border-radius:25px;
+.actions{
 
 display:flex;
+justify-content:center;
+gap:20px;
 
-justify-content:space-between;
-
-font-size:20px;
+margin-top:20px;
 
 }
-
 
 
 .start{
 
-background:#22c55e;
-
-color:white;
-
-width:45%;
+background:white;
 
 }
-
 
 
 .cash{
 
-background:#eab308;
-
-width:45%;
+background:#ffc107;
 
 }
 
 
-
-.buttons{
+#message{
 
 text-align:center;
 
-}
+font-size:22px;
 
-
-
-#msg{
-
-text-align:center;
-
-font-size:25px;
-
-margin:15px;
+margin:20px;
 
 }
-
 
 
 nav{
 
-position:fixed;
+position:absolute;
 
 bottom:0;
 
-left:0;
+width:100%;
 
-right:0;
-
-background:#11131a;
+background:#111522;
 
 display:flex;
 
@@ -253,18 +176,22 @@ justify-content:space-around;
 
 padding:15px 0;
 
-border-radius:30px 30px 0 0;
+font-size:15px;
 
 }
 
 
-
-nav span{
+nav div{
 
 text-align:center;
 
-font-size:13px;
-
 color:#aaa;
+
+}
+
+
+.active{
+
+color:white!important;
 
 }
