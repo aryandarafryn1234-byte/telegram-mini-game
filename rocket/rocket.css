@@ -3,202 +3,166 @@ box-sizing:border-box;
 font-family:Arial;
 }
 
+
 body{
+
 margin:0;
-background:#070b18;
+background:#050816;
 color:white;
+text-align:center;
+
 }
 
-
-.app{
-padding:25px;
-}
 
 
 header{
+
 display:flex;
 justify-content:space-between;
 align-items:center;
+padding:25px;
+
 }
 
 
 h1{
-font-size:42px;
+
+font-size:45px;
+
 }
+
 
 
 .balance{
-background:#151b32;
+
+background:#151d38;
 padding:20px 35px;
-border-radius:35px;
+border-radius:40px;
 font-size:28px;
+
 }
 
 
 
-.space{
+.game{
 
-height:700px;
-margin-top:40px;
+height:650px;
+margin:20px;
 border-radius:40px;
-background:#05091a;
+background:#080d22;
 position:relative;
 overflow:hidden;
 
 }
 
 
+
 .stars{
 
 position:absolute;
-inset:0;
-
+width:100%;
+height:100%;
 background-image:
 radial-gradient(white 2px,transparent 2px);
-
-background-size:100px 100px;
-
+background-size:80px 80px;
 opacity:.5;
 
 }
 
 
 
-#multiplier{
+.multiplier{
 
 position:absolute;
-top:250px;
+top:220px;
 width:100%;
-text-align:center;
-
-font-size:110px;
+font-size:100px;
 font-weight:bold;
 
 }
 
 
 
-#rocket{
+.rocket{
 
 position:absolute;
-
-width:120px;
-
-bottom:100px;
-
-left:50%;
-
-transform:translateX(-50%);
-
-transition:.2s;
+bottom:120px;
+left:45%;
+font-size:90px;
+transition:.1s;
 
 }
 
 
 
-.history{
+.buttons{
 
 display:flex;
-
 gap:20px;
-
-margin-top:30px;
-
-}
-
-
-.history button{
-
-flex:1;
-
-padding:25px;
-
-border-radius:40px;
-
-background:#202940;
-
-color:white;
-
-border:0;
-
-font-size:25px;
+justify-content:center;
+overflow:hidden;
 
 }
 
-
-
-.betbox{
-
-background:#11182c;
-
-padding:25px;
-
-margin-top:25px;
-
-border-radius:30px;
-
-}
-
-
-.betbox button{
-
-padding:15px 25px;
-
-border-radius:20px;
-
-font-size:20px;
-
-}
-
-
-.start{
-
-background:#159447;
-
-color:white;
-
-}
 
 
 .cash{
 
-background:#c43a3a;
+background:#222b48;
+color:white;
+border:0;
+padding:25px 50px;
+border-radius:50px;
+font-size:30px;
 
+}
+
+
+
+.bet{
+
+background:#111a33;
+margin:30px;
+padding:35px;
+border-radius:40px;
+
+}
+
+
+
+.bet button{
+
+font-size:25px;
+padding:20px 40px;
+border-radius:25px;
+margin:10px;
+cursor:pointer;
+
+}
+
+
+
+#start{
+
+background:#10a54a;
 color:white;
 
 }
 
 
 
-nav{
+#cashout{
 
-position:fixed;
-
-bottom:0;
-
-left:0;
-
-right:0;
-
-height:90px;
-
-background:#101728;
-
-display:flex;
-
-justify-content:space-around;
-
-align-items:center;
-
-font-size:18px;
+background:#d12d36;
+color:white;
 
 }
 
 
-.active{
+.players{
 
-color:white;
-
-font-size:22px;
+font-size:25px;
+text-align:left;
+margin-left:30%;
 
 }
