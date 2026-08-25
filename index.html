@@ -1,124 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa">
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rocket</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Rocket</title>
 <link rel="stylesheet" href="rocket.css">
 </head>
 
 <body>
 
-<div class="header">
-<h2>🚀 Rocket</h2>
+<header>
+    <h1>🚀 Rocket</h1>
 
-<div class="wallet">
-💎 <span id="balance">1000</span>
-</div>
-</div>
+    <div class="balance">
+        💎 <span id="balance">1000</span>
+    </div>
+</header>
 
 
-<div class="game">
+<div class="space">
 
-<div id="stars"></div>
+    <div class="stars"></div>
 
-<div id="rocket">🚀</div>
+    <div id="multiplier">1.00x</div>
 
-<div id="multi">
-1.00x
-</div>
+    <div id="rocket">🚀</div>
 
 </div>
-
 
 
 <div class="history">
+    <span>BET</span>
+    <span>1.25x</span>
+    <span>1.78x</span>
+    <span>2.55x</span>
+    <span>8.96x</span>
+</div>
 
-<div>BET</div>
-<div>1.25x</div>
-<div>1.78x</div>
-<div>2.55x</div>
-<div>4.34x</div>
-<div>8.96x</div>
+
+<div class="bets">
+
+<button onclick="bet(10)">💎 10</button>
+<button onclick="bet(50)">💎 50</button>
+<button onclick="bet(100)">💎 100</button>
 
 </div>
 
 
+<div class="actions">
 
-<div class="bet">
-
-<h2>PLACE BET</h2>
-
-<button onclick="selectBet(10)">
-💎 10
-</button>
-
-<button onclick="selectBet(50)">
-💎 50
-</button>
-
-<button onclick="selectBet(100)">
-💎 100
-</button>
-
-
-</div>
-
-
-
-<div class="users">
-
-<div>
-🟢 زهرا
-<span>💎10</span>
-</div>
-
-<div>
-⚪ حیدر
-<span>💎4</span>
-</div>
-
-<div>
-🟠 علی
-<span>💎5</span>
-</div>
-
-
-</div>
-
-
-
-<div class="buttons">
-
-<button class="start" onclick="start()">
+<button class="start" onclick="startGame()">
 🚀 START
 </button>
 
-
-<button class="cash" onclick="cash()">
+<button class="cash" onclick="cashOut()">
 💰 CASH OUT
 </button>
 
 </div>
 
 
-
-<div id="msg"></div>
-
+<div id="message"></div>
 
 
 <nav>
 
-<span>⚔️<br>PVP</span>
-<span>🎮<br>GAMES</span>
-<span>🚀<br>ROCKET</span>
-<span>🏆<br>RANKS</span>
-<span>👤<br>PROFILE</span>
+<div>⚔️<br>PVP</div>
+<div>🎮<br>GAMES</div>
+<div class="active">🚀<br>ROCKET</div>
+<div>🏆<br>RANKS</div>
+<div>👤<br>PROFILE</div>
 
 </nav>
-
 
 
 <script src="rocket.js"></script>
 
 </body>
-  </html>
+</html>
