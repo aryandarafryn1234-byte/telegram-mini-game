@@ -1,265 +1,138 @@
-let balance = 1000;
+let multiplier = 1;
+
+let running = false;
+
+let crashed = false;
 
 let betAmount = 0;
 
-let multiplier = 1;
 
-let playing = false;
-
-let timer;
-
-let crashPoint;
-
-
-
-const coins =
-document.getElementById("coins");
-
-const rocket =
+let rocket =
 document.getElementById("rocket");
 
-const multi =
+let display =
 document.getElementById("multiplier");
 
-const message =
-document.getElementById("message");
 
 
+function bet(amount){
 
+betAmount = amount;
 
-
-function setBet(amount){
-
-    if(playing) return;
-
-
-    if(balance < amount){
-
-        message.innerHTML =
-        "❌ موجودی کافی نیست";
-
-        return;
-
-    }
-
-
-    betAmount = amount;
-
-
-    message.innerHTML =
-    "💎 شرط انتخاب شد: "+amount;
+alert("Bet: "+amount+" 💎");
 
 }
-
-
-
-
 
 
 
 function startGame(){
 
-
-    if(playing) return;
-
-
-    if(betAmount === 0){
-
-        message.innerHTML =
-        "⚠️ اول شرط انتخاب کن";
-
-        return;
-
-    }
+if(running) return;
 
 
+running=true;
 
-    balance -= betAmount;
+crashed=false;
 
-    coins.innerHTML = balance;
+multiplier=1;
+
+
+rocket.style.bottom="100px";
 
 
 
-    multiplier = 1;
+let audio =
+new AudioContext();
 
-    playing = true;
+let osc =
+audio.createOscillator();
 
+osc.frequency.value=300;
 
+osc.connect(audio.destination);
 
-    rocket.innerHTML="🚀";
+osc.start();
 
-    rocket.style.bottom="50px";
-
-
-
-    message.innerHTML =
-    "🚀 راکت پرتاب شد";
-
-
-
-    let sound =
-    document.getElementById("launchSound");
-
-    if(sound){
-
-        sound.currentTime=0;
-
-        sound.play();
-
-    }
+osc.stop(audio.currentTime+0.3);
 
 
 
+let game=setInterval(()=>{
 
 
-    // ضریب انفجار
-
-    crashPoint =
-    (Math.random()*8+1).toFixed(2);
+multiplier += 0.01;
 
 
-
-
-
-
-    timer=setInterval(()=>{
-
-
-        multiplier += 0.05 + multiplier/100;
+display.innerHTML =
+multiplier.toFixed(2)+"x";
 
 
 
-        multi.innerHTML =
-        multiplier.toFixed(2)+"x";
+let move =
+(multiplier-1)*35;
+
+
+rocket.style.bottom =
+(100+move)+"px";
 
 
 
-
-        rocket.style.bottom =
-        (50 + multiplier*22)+"px";
-
-
-
-        rocket.style.transform =
-        "rotate(-20deg) scale(1.15)";
+rocket.style.transform =
+"rotate(-25deg)";
 
 
 
-
-
-        if(multiplier >= crashPoint){
-
-            explode();
-
-        }
+let crashChance =
+Math.random();
 
 
 
+if(multiplier>2 && crashChance<0.02){
 
-    },100);
+
+clearInterval(game);
+
+
+running=false;
+
+crashed=true;
+
+
+display.innerHTML="💥 CRASH";
+
+
+rocket.style.bottom="100px";
+
 
 }
 
 
+},100);
+
+
+
+}
 
 
 
 function cashOut(){
 
+if(!running){
 
-    if(!playing) return;
+alert("Start game first");
 
-
-
-    let win =
-    Math.floor(
-        betAmount * multiplier
-    );
-
-
-
-    balance += win;
-
-
-    coins.innerHTML =
-    balance;
-
-
-
-    message.innerHTML =
-    "🎉 بردی 💎 "+win;
-
-
-
-    stopGame();
-
+return;
 
 }
 
 
+let win =
+betAmount * multiplier;
 
 
-
-
-function explode(){
-
-
-    rocket.innerHTML="💥";
-
-
-    message.innerHTML =
-    "💥 BOOM! راکت منفجر شد";
-
-
-
-    let sound =
-    document.getElementById("crashSound");
-
-
-    if(sound){
-
-        sound.currentTime=0;
-
-        sound.play();
-
-    }
-
-
-
-    stopGame();
-
-
-
-    setTimeout(()=>{
-
-
-        rocket.innerHTML="🚀";
-
-        rocket.style.bottom="50px";
-
-        rocket.style.transform="";
-
-
-        multi.innerHTML="1.00x";
-
-
-    },1500);
-
+alert(
+"WIN 💎 "+win.toFixed(2)
+);
 
 
 }
-
-
-
-
-
-
-
-function stopGame(){
-
-    clearInterval(timer);
-
-    playing=false;
-
-
-                      }
