@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Mini Game</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111827;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .game {
+      width: 100%;
+      max-width: 500px;
+      padding: 25px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .score {
+      font-size: 32px;
+      margin: 25px 0;
+    }
+
+    #coin {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: none;
+      background: #facc15;
+      font-size: 70px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,.4);
+      transition: transform .1s;
+    }
+
+    #coin:active {
+      transform: scale(.92);
+    }
+
+    .button {
+      margin-top: 25px;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 12px;
+      background: #2563eb;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 20px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="game">
+    <h1>🎮 Telegram Mini Game</h1>
+
+    <div class="score">
+      امتیاز: <span id="score">0</span>
+    </div>
+
+    <button id="coin">🪙</button>
+
+    <br>
+
+    <button class="button" onclick="resetGame()">
+      شروع دوباره
+    </button>
+
+    <div class="message">
+      برای گرفتن امتیاز روی سکه بزن!
+    </div>
+  </div>
+
+  <script>
+    let score = 0;
+
+    const coin = document.getElementById("coin");
+    const scoreText = document.getElementById("score");
+
+    coin.addEventListener("click", () => {
+      score++;
+      scoreText.textContent = score;
+    });
+
+    function resetGame() {
+      score = 0;
+      scoreText.textContent = score;
+    }
+  </script>
+
+</body>
+  </html>
