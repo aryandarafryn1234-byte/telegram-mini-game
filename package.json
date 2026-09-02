@@ -1,7 +1,8 @@
 {
-  "name": "ary-ir-crash-game",
+  "name": "telegram-mini-game",
   "version": "1.0.0",
-  "private": true,
+  "description": "Telegram Mini Game",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
