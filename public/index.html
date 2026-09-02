@@ -3,158 +3,263 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gift Mini App</title>
+  <title>Gift Game</title>
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #08070d;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+      padding-bottom: 100px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .balance {
+      background: #171421;
+      border: 1px solid #35264d;
+      border-radius: 18px;
+      padding: 10px 16px;
+    }
+
+    .hero {
+      background: linear-gradient(145deg, #25103d, #140d20);
+      border: 1px solid #5a2d82;
+      border-radius: 30px;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 36px;
+    }
+
+    .hero p {
+      color: #bdb5c8;
+      font-size: 18px;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .start {
+      width: 100%;
+      padding: 20px;
+      border-radius: 25px;
+      background: #984cff;
+      margin-top: 15px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #121118;
+      border: 1px solid #302c39;
+      border-radius: 25px;
+      padding: 20px 10px;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 40px;
+    }
+
+    .card h3 {
+      margin: 10px 0 5px;
+    }
+
+    .card p {
+      color: #88838f;
+      font-size: 13px;
+    }
+
+    .section-title {
+      margin-top: 35px;
+      font-size: 28px;
+    }
+
+    .game {
+      background: #121118;
+      border: 1px solid #302c39;
+      border-radius: 28px;
+      padding: 20px;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .game-info {
+      flex: 1;
+    }
+
+    .game h2 {
+      margin: 0 0 8px;
+    }
+
+    .game p {
+      color: #99939f;
+    }
+
+    .play {
+      background: #26143b;
+      border: 1px solid #7139a0;
+      padding: 12px 20px;
+      border-radius: 15px;
+    }
+
+    .game-icon {
+      font-size: 55px;
+      background: #281344;
+      border-radius: 20px;
+      padding: 10px;
+    }
+
+    .bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #0e0d14;
+      border-top: 1px solid #292532;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 5px;
+    }
+
+    .bottom button {
+      background: transparent;
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    @media (max-width: 500px) {
+      .cards {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .game {
+        flex-direction: row;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <div class="app">
+  <div class="container">
 
-    <!-- Header -->
-    <header class="header">
-      <div>
-        <div class="small-title">خوش اومدی 👋</div>
-        <div class="username" id="username">بازیکن</div>
-      </div>
+    <div class="top">
+      <h2>🎁 Gift Game</h2>
+      <div class="balance">💎 <span id="coins">0</span></div>
+    </div>
 
-      <div class="balance">
-        <span>💎</span>
-        <b id="balance">0</b>
-      </div>
-    </header>
+    <div class="hero">
+      <h1>Gift Game 🎁</h1>
+      <p>بازی کن، امتیاز بگیر و جایزه ببر!</p>
 
-
-    <!-- Main Banner -->
-    <section class="hero">
-      <div class="hero-content">
-        <span class="hero-icon">🎁</span>
-
-        <div>
-          <h1>Gift Game</h1>
-          <p>بازی کن، امتیاز بگیر و جایزه ببر!</p>
-        </div>
-      </div>
-
-      <button class="play-btn" onclick="startGame()">
+      <button class="start" onclick="startGame()">
         🎮 شروع بازی
       </button>
-    </section>
+    </div>
 
+    <div class="cards">
 
-    <!-- Quick actions -->
-    <section class="quick-actions">
-
-      <button class="action-card" onclick="showSection('gifts')">
-        <span>🎁</span>
-        <b>هدایا</b>
-        <small>جوایز من</small>
-      </button>
-
-      <button class="action-card" onclick="showSection('invite')">
-        <span>👥</span>
-        <b>دعوت دوستان</b>
-        <small>سکه بگیر</small>
-      </button>
-
-      <button class="action-card" onclick="showSection('leaderboard')">
-        <span>🏆</span>
-        <b>رتبه‌بندی</b>
-        <small>جدول برترین‌ها</small>
-      </button>
-
-    </section>
-
-
-    <!-- Games -->
-    <section class="section">
-
-      <div class="section-title">
-        <h2>🎮 بازی‌ها</h2>
-        <span>همه</span>
+      <div class="card" onclick="showRanking()">
+        <div class="icon">🏆</div>
+        <h3>رتبه‌بندی</h3>
+        <p>جدول برترین‌ها</p>
       </div>
 
-      <div class="games">
-
-        <div class="game-card" onclick="startGame()">
-          <div class="game-image rocket">🚀</div>
-
-          <div class="game-info">
-            <h3>Rocket</h3>
-            <p>ضریب رو قبل از سقوط بگیر!</p>
-
-            <button>بازی کردن</button>
-          </div>
-        </div>
-
-
-        <div class="game-card" onclick="startGame()">
-          <div class="game-image gift">🎁</div>
-
-          <div class="game-info">
-            <h3>Gift Crash</h3>
-            <p>شانس خودت رو امتحان کن</p>
-
-            <button>بازی کردن</button>
-          </div>
-        </div>
-
+      <div class="card" onclick="inviteFriends()">
+        <div class="icon">👥</div>
+        <h3>دعوت دوستان</h3>
+        <p>سکه بگیر</p>
       </div>
 
-    </section>
-
-
-    <!-- Earn -->
-    <section class="earn-box">
-
-      <div class="earn-icon">💰</div>
-
-      <div>
-        <h3>سکه بیشتر می‌خوای؟</h3>
-        <p>دوستات رو دعوت کن و جایزه بگیر.</p>
+      <div class="card" onclick="showGifts()">
+        <div class="icon">🎁</div>
+        <h3>هدایا</h3>
+        <p>جوایز من</p>
       </div>
 
-      <button onclick="showSection('invite')">
-        دعوت
-      </button>
+    </div>
 
-    </section>
+    <h2 class="section-title">🎮 بازی‌ها</h2>
 
+    <div class="game">
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
+      <div class="game-info">
+        <h2>Rocket 🚀</h2>
+        <p>ضریب رو قبل از سقوط بگیر!</p>
 
-      <button class="nav-item active" onclick="showSection('home')">
-        <span>🏠</span>
-        <small>خانه</small>
-      </button>
+        <button class="play" onclick="playRocket()">
+          بازی کردن
+        </button>
+      </div>
 
-      <button class="nav-item" onclick="showSection('gifts')">
-        <span>🎒</span>
-        <small>کوله‌پشتی</small>
-      </button>
+      <div class="game-icon">🚀</div>
 
-      <button class="nav-item" onclick="showSection('invite')">
-        <span>👥</span>
-        <small>دعوت</small>
-      </button>
+    </div>
 
-      <button class="nav-item" onclick="showSection('leaderboard')">
-        <span>🏆</span>
-        <small>برترین‌ها</small>
-      </button>
+    <div class="game">
 
-      <button class="nav-item" onclick="showSection('earn')">
-        <span>💎</span>
-        <small>کسب درآمد</small>
-      </button>
+      <div class="game-info">
+        <h2>Gift Crash 🎁</h2>
+        <p>شانس خودت رو امتحان کن!</p>
 
-    </nav>
+        <button class="play" onclick="playGiftCrash()">
+          بازی کردن
+        </button>
+      </div>
 
+      <div class="game-icon">🎁</div>
+
+    </div>
+
+  </div>
+
+  <div class="bottom">
+    <button onclick="showHome()">🏠<br>خانه</button>
+    <button onclick="showGifts()">🎁<br>هدایا</button>
+    <button onclick="inviteFriends()">👥<br>دعوت</button>
+    <button onclick="showRanking()">🏆<br>برترین‌ها</button>
+    <button onclick="showEarnings()">💎<br>کسب درآمد</button>
   </div>
 
   <script src="app.js"></script>
 
 </body>
-  </html>
+        </html>
