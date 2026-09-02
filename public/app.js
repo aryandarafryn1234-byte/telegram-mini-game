@@ -1,131 +1,95 @@
-let balance = 10000;
-let playing = false;
-let cashedOut = false;
-let multiplier = 1.00;
-let crashPoint = 0;
-let timer = null;
+let balance = 0;
 
-const balanceEl = document.getElementById("balance");
-const multiplierEl = document.getElementById("multiplier");
-const statusEl = document.getElementById("status");
-const rocketEl = document.getElementById("rocket");
-const actionEl = document.getElementById("action");
+const balanceElement = document.getElementById("balance");
+const usernameElement = document.getElementById("username");
 
-function updateBalance() {
-  balanceEl.textContent = balance.toLocaleString("en-US");
+// گرفتن اطلاعات کاربر از Telegram Mini App
+if (window.Telegram && Telegram.WebApp) {
+  Telegram.WebApp.ready();
+  Telegram.WebApp.expand();
+
+  const user = Telegram.WebApp.initDataUnsafe?.user;
+
+  if (user) {
+    usernameElement.textContent =
+      user.first_name || user.username || "بازیکن";
+  }
 }
 
-function randomCrash() {
-  // امتیازها کاملاً مجازی هستند
-  return Number((1.05 + Math.random() * 5).toFixed(2));
-}
-
+// شروع بازی
 function startGame() {
-  if (playing) return;
+  if (window.Telegram && Telegram.WebApp) {
+    Telegram.WebApp.HapticFeedback?.impactOccurred("medium");
+  }
 
-  const amount = Number(document.getElementById("amount").value);
+  alert("🎮 بازی به‌زودی شروع می‌شود!");
+}
 
-  if (!amount || amount < 10) {
-    alert("حداقل شرط ۱۰ امتیاز است.");
+// نمایش بخش‌ها
+function showSection(section) {
+
+  if (window.Telegram && Telegram.WebApp) {
+    Telegram.WebApp.HapticFeedback?.selectionChanged();
+  }
+
+  if (section === "home") {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
     return;
   }
 
-  if (amount > balance) {
-    alert("امتیاز کافی نداری.");
+  if (section === "gifts") {
+    alert("🎒 کوله‌پشتی شما هنوز خالی است.");
     return;
   }
 
-  balance -= amount;
-  updateBalance();
+  if (section === "invite") {
+    const link = window.location.href;
 
-  playing = true;
-  cashedOut = false;
-  multiplier = 1.00;
-  crashPoint = randomCrash();
-
-  statusEl.textContent = "🚀 موشک در حال صعود...";
-  actionEl.textContent = "💰 برداشت";
-  actionEl.style.background =
-    "linear-gradient(#09bd5e,#078f45)";
-
-  rocketEl.style.display = "block";
-
-  clearInterval(timer);
-
-  timer = setInterval(() => {
-
-    multiplier += 0.02 + Math.random() * 0.035;
-    multiplier = Number(multiplier.toFixed(2));
-
-    multiplierEl.textContent =
-      multiplier.toFixed(2) + "x";
-
-    const move =
-      Math.min(220, (multiplier - 1) * 70);
-
-    rocketEl.style.transform =
-      `translateY(-${move}px) rotate(-18deg)`;
-
-    if (multiplier >= crashPoint) {
-      crash();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(link);
     }
 
-  }, 100);
-}
+    alert(
+      "👥 لینک دعوت شما آماده شد!\n\n" +
+      "لینک برنامه:\n" +
+      link
+    );
 
-function crash() {
-  clearInterval(timer);
-
-  playing = false;
-
-  statusEl.textContent = "💥 انفجار!";
-  multiplierEl.textContent =
-    multiplier.toFixed(2) + "x";
-
-  rocketEl.style.display = "none";
-
-  actionEl.textContent = "🚀 بازی دوباره";
-
-  setTimeout(() => {
-    rocketEl.style.display = "block";
-    rocketEl.style.transform =
-      "translateY(0) rotate(-18deg)";
-  }, 1200);
-}
-
-function cashOut() {
-
-  if (!playing || cashedOut) return;
-
-  const amount =
-    Number(document.getElementById("amount").value);
-
-  const win =
-    Math.floor(amount * multiplier);
-
-  balance += win;
-  updateBalance();
-
-  cashedOut = true;
-
-  statusEl.textContent =
-    `🎉 برداشت موفق: ${win.toLocaleString()} امتیاز`;
-
-  actionEl.textContent = "🚀 بازی دوباره";
-
-  clearInterval(timer);
-
-  playing = false;
-}
-
-actionEl.addEventListener("click", () => {
-
-  if (playing && !cashedOut) {
-    cashOut();
-  } else {
-    startGame();
+    return;
   }
 
-});
+  if (section === "leaderboard") {
+    alert(
+      "🏆 جدول برترین‌ها\n\n" +
+      "🥇 بازیکن اول — 1250 💎\n" +
+      "🥈 بازیکن دوم — 980 💎\n" +
+      "🥉 بازیکن سوم — 760 💎"
+    );
 
-updateBalance();
+    return;
+  }
+
+  if (section === "earn") {
+    alert(
+      "💎 راه‌های کسب امتیاز\n\n" +
+      "🎮 بازی کردن\n" +
+      "👥 دعوت دوستان\n" +
+      "🎁 دریافت هدیه"
+    );
+
+    return;
+  }
+}
+
+// اضافه کردن سکه
+function addBalance(amount) {
+  balance += amount;
+
+  balanceElement.textContent = balance.toLocaleString("en-US");
+}
+
+// مقدار اولیه
+addBalance(0);
