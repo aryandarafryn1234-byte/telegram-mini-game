@@ -1,1 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
 
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TransactionType {
+  WELCOME
+  DAILY_BONUS
+  GAME_WIN
+  GAME_LOSS
+  REFERRAL
+  ADMIN_GRANT
+}
+
+enum GameType {
+  SLOTS
+  DICE
+  WHEEL
+}
+
+enum AdminRole {
+  ADMIN
+  SUPER_ADMIN
+}
+
+model User {
+  id                Int                @id @default(autoincrement())
+  telegramId        String             @unique
+  username          String?
+  firstName         String?
+  balance           Int                @default(1000)
+  xp                Int                @default(0)
+  referralCode      String             @unique
+  referredById      Int?
+  lastDailyBonusAt  DateTime?
+
+  referredBy        User?              @relation("UserReferrals", fields: [referredById], references: [id])
+  referrals         User[]             @relation("UserReferrals")
+  transactions      WalletTransaction[]
+  games             GameSession[]
+  missions          MissionProgress[]
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model WalletTransaction {
+  id            Int               @id @default(autoincrement())
+  userId        Int
+  amount        Int
+  type          TransactionType
+  balanceBefore Int?
+  balanceAfter  Int?
+  reference     String?
+  metadata      Json?
+  note          String?
+
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime          @default(now())
+
+  @@index([userId])
+}
+
+model GameSession {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  game      GameType
+  bet       Int
+  result    String
+  payout    Int
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Mission {
+  id          Int               @id @default(autoincrement())
+  title       String
+  description String
+  reward      Int
+  target      Int
+  type        String
+  active      Boolean           @default(true)
+
+  progress    MissionProgress[]
+}
+
+model MissionProgress {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  missionId   Int
+  progress    Int      @default(0)
+  completed   Boolean  @default(false)
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mission    Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, missionId])
+}
+
+model AdminAction {
+  id         Int       @id @default(autoincrement())
+  adminId    String
+  role       AdminRole
+  action     String
+  targetUser String?
+  amount     Int?
+
+  createdAt  DateTime  @default(now())
+}
