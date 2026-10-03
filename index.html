@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#191919">
+<title>Epic Gift</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#191919;color:white;font-family:Arial,sans-serif}
+.app{max-width:520px;margin:auto;padding-bottom:90px}
+.header{height:80px;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #383838}
+.logo{font-size:25px;font-weight:bold}
+.more{background:#292929;border:0;color:white;border-radius:50%;font-size:28px;width:45px;height:45px}
+.content{padding:16px}
+.account{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.avatar{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#ffc45c,#e89c4c);border:3px solid #8961e9;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:bold}
+.balance{flex:1}.muted{color:#aaa;font-size:17px}.amount{font-size:28px;font-weight:bold;margin-top:5px}
+.ton{display:inline-flex;background:#20a9e8;border-radius:50%;width:30px;height:30px;align-items:center;justify-content:center;font-size:14px;margin-right:5px}
+.deposit{background:#8964e8;border:0;color:white;border-radius:18px;padding:15px 18px;font-size:16px;font-weight:bold}
+.live{display:flex;gap:10px;align-items:center;margin-bottom:20px}
+.liveTitle{width:50px;text-align:center;font-weight:bold}.dot{width:12px;height:12px;background:#32bd5d;border-radius:50%;display:block;margin:auto auto 4px}
+.liveRow{display:flex;gap:10px;overflow:hidden}.gift{min-width:72px;height:72px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:37px;background:#22b99c}.gift:nth-child(2){background:#f2b814}.gift:nth-child(3),.gift:nth-child(4),.gift:nth-child(5){background:#169ddd}.gift:nth-child(6){background:#1bbd8f}
+.banner{height:150px;border:0;border-radius:28px;width:100%;margin-bottom:18px;color:white;text-align:left;padding:22px;position:relative;overflow:hidden}
+.rocket{background:linear-gradient(120deg,#9bcaff,#4d9ce3)}.pvp{background:linear-gradient(120deg,#ffbb0c,#f19f00)}.hub{background:linear-gradient(120deg,#46149a,#8c24c9)}
+.badge{background:white;color:#4382bc;padding:9px 13px;border-radius:12px;font-weight:bold}
+.title{display:block;margin-top:25px;font-size:30px;font-weight:900}
+.cards{position:absolute;right:8px;top:12px;display:flex;gap:6px;transform:rotate(-8deg)}
+.cards span{width:65px;height:120px;border-radius:12px;background:#4bd84d;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold}
+.cards span:nth-child(2){background:#ef3d43}.cards span:nth-child(3){background:#7025c8;font-size:14px}
+.players{position:absolute;right:8px;top:15px;display:flex;gap:6px}
+.players span{background:#333b;width:70px;height:110px;border-radius:13px;text-align:center;padding-top:20px;font-size:11px;font-weight:bold}
+.players b{font-size:15px}
+.freeGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.free{height:220px;border-radius:27px;border:2px solid #d0bd21;background:radial-gradient(circle,#614711,#181818);color:white;position:relative}
+.free:nth-child(2){border-color:#887be0;background:radial-gradient(circle,#07402f,#181818)}
+.free strong{font-size:26px;font-style:italic}.free div{font-size:70px;margin-top:45px}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:82px;background:#1b1b1b;border-top:1px solid #383838;display:grid;grid-template-columns:repeat(5,1fr);padding:6px}
+.nav button{background:none;border:0;color:#999;font-size:12px;font-weight:bold;border-radius:18px}
+.nav button.active{background:#292929;color:white}
+.nav b{display:block;font-size:28px;margin-bottom:3px}
+
+@media(max-width:390px){
+.deposit{padding:12px}.title{font-size:25px}.banner{height:135px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+<div class="logo">🎁 Epic Gift</div>
+<button class="more">⋮</button>
+</header>
+
+<main class="content">
+
+<section class="account">
+<div class="avatar" id="avatar">AN</div>
+<div class="balance">
+<div class="muted">Your balance</div>
+<div class="amount"><span class="ton">◆</span>0.265</div>
+</div>
+<button class="deposit">▣ Deposit</button>
+</section>
+
+<section class="live">
+<div class="liveTitle"><span class="dot"></span>Live</div>
+<div class="liveRow">
+<div class="gift">🐸</div>
+<div class="gift">💪</div>
+<div class="gift">🍫</div>
+<div class="gift">🎄</div>
+<div class="gift">🦩</div>
+<div class="gift">💐</div>
+</div>
+</section>
+
+<button class="banner rocket">
+<span class="badge">⚡ HOT</span>
+<span class="title">🚀 ROCKET</span>
+</button>
+
+<button class="banner pvp">
+<span class="title">⚔ PVP</span>
+<div class="players">
+<span>DEGEN<br><br><b>6.1%</b></span>
+<span>MIKE_K<br><br><b>61.8%</b></span>
+<span>TONNER<br><br><b>8.4%</b></span>
+</div>
+</button>
+
+<button class="banner hub">
+<span class="badge">✦ NEW</span>
+<span class="title">🎮 PLAY HUB</span>
+<div class="cards">
+<span>↑</span><span>✿</span><span>Plinko</span>
+</div>
+</button>
+
+<section class="freeGrid">
+<button class="free">
+<strong>FREE24</strong>
+<div>💍</div>
+</button>
+<button class="free">
+<strong>FREE</strong>
+<div>🍭🍄</div>
+</button>
+</section>
+
+</main>
+
+<nav class="nav">
+<button><b>▣</b>Backpack</button>
+<button><b>♧</b>Invite</button>
+<button class="active"><b>⌂</b>Home</button>
+<button><b>♜</b>Leaderboard</button>
+<button><b>◎</b>Earn</button>
+</nav>
+
+</div>
+
+<script>
+const tg=window.Telegram?.WebApp;
+
+if(tg){
+tg.ready();
+tg.expand();
+
+const user=tg.initDataUnsafe?.user;
+
+if(user){
+document.getElementById("avatar").textContent=
+(user.first_name||user.username||"AN").slice(0,2).toUpperCase();
+}
+}
+
+document.querySelector(".deposit").onclick=()=>{
+alert("Deposit در مرحله بعد وصل می‌شود");
+};
+</script>
+
+</body>
+  </html>
