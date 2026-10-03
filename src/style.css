@@ -1,0 +1,357 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #020914;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+.app {
+  width: 100%;
+  max-width: 520px;
+  min-height: 100vh;
+  margin: auto;
+
+  background:
+    linear-gradient(
+      180deg,
+      #071a32,
+      #020914
+    );
+}
+
+.header {
+  height: 75px;
+  padding: 12px 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #07172b;
+
+  border-bottom: 1px solid #183b5e;
+
+  position: sticky;
+  top: 0;
+
+  z-index: 10;
+}
+
+.header h1 {
+  margin: 0;
+
+  font-size: 18px;
+}
+
+.header span {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #7692ae;
+
+  font-size: 11px;
+}
+
+.balance {
+  background: #102c4a;
+
+  border: 1px solid #22547e;
+
+  padding: 9px 12px;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+}
+
+.game {
+  height: 350px;
+
+  margin: 15px;
+
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle,
+      #124474,
+      #07182b 60%,
+      #020914
+    );
+
+  border: 1px solid #1b456b;
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+
+  opacity: .25;
+
+  background-image:
+    radial-gradient(
+      white 1px,
+      transparent 1px
+    );
+
+  background-size: 35px 35px;
+}
+
+.rocket {
+  font-size: 70px;
+
+  z-index: 2;
+
+  filter:
+    drop-shadow(
+      0 0 20px #35a9ff
+    );
+}
+
+.rocketFlying {
+  animation:
+    rocketMove .8s infinite alternate;
+}
+
+@keyframes rocketMove {
+
+  from {
+    transform:
+      translate(0, 10px)
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      translate(25px, -30px)
+      rotate(-8deg);
+  }
+
+}
+
+.multiplier {
+  z-index: 2;
+
+  margin-top: 5px;
+
+  font-size: 58px;
+
+  font-weight: bold;
+
+  color: #3cff8a;
+
+  text-shadow:
+    0 0 25px #23ff8066;
+}
+
+.crashed {
+  color: #ff4e68;
+
+  text-shadow: none;
+}
+
+.status {
+  z-index: 2;
+
+  margin-top: 7px;
+
+  color: #8da9c4;
+
+  font-size: 13px;
+}
+
+.panel {
+  margin: 15px;
+
+  padding: 17px;
+
+  border-radius: 20px;
+
+  background: #07182b;
+
+  border: 1px solid #193b5b;
+}
+
+.panel label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #9bb2c9;
+
+  font-size: 13px;
+}
+
+.betBox {
+  display: flex;
+
+  gap: 7px;
+
+  margin-bottom: 12px;
+}
+
+.betBox input {
+  flex: 1;
+
+  width: 0;
+
+  padding: 13px;
+
+  border-radius: 12px;
+
+  border: 1px solid #245073;
+
+  background: #0b233d;
+
+  color: white;
+
+  font-size: 17px;
+}
+
+.betBox button {
+  border: 1px solid #285273;
+
+  border-radius: 10px;
+
+  background: #102c48;
+
+  color: white;
+
+  padding: 0 11px;
+}
+
+.startButton,
+.cashButton {
+  width: 100%;
+
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: bold;
+}
+
+.startButton {
+  background: #168dff;
+}
+
+.cashButton {
+  background: #10c96a;
+}
+
+.panel h2 {
+  margin-top: 0;
+
+  font-size: 16px;
+}
+
+.historyRow {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 13px 3px;
+
+  border-bottom: 1px solid #12304a;
+
+  font-size: 13px;
+}
+
+.win {
+  color: #35e58a;
+}
+
+.lose {
+  color: #ff5570;
+}
+
+.empty {
+  padding: 20px;
+
+  text-align: center;
+
+  color: #7189a3;
+
+  font-size: 13px;
+}
+
+.admin {
+  margin: 15px;
+
+  padding: 17px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #281b08,
+      #07182b
+    );
+
+  border: 1px solid #77551c;
+}
+
+.admin h2 {
+  margin-top: 0;
+
+  color: #ffc94d;
+}
+
+.adminButtons {
+  display: grid;
+
+  gap: 8px;
+}
+
+.adminButtons button {
+  padding: 12px;
+
+  border-radius: 11px;
+
+  border: 1px solid #5d4820;
+
+  background: #1d2a2d;
+
+  color: white;
+}
+
+footer {
+  padding: 20px;
+
+  text-align: center;
+
+  color: #536f8b;
+
+  font-size: 11px;
+  }
